@@ -23,7 +23,10 @@
                 <xs:sequence>
                     <xs:element name="testataRichiesta" type="complex:testataRichiestaType"/>
                     <xs:element name="generalita" type="complex:generalitaRichiestaType"/>
+                    <!-- CHANGED: non si capisce a cosa serva questo element
+                        
                     <xs:element name="datiControllo" type="complex:datiControlloType"/>
+                     -->
                 </xs:sequence>
             </xs:complexType>
         </xs:element>
@@ -62,7 +65,9 @@
                     <xs:element name="testataRichiesta" type="complex:testataRichiestaType"/>
                     <xs:element name="generalita" type="complex:generalitaType"/>
                     <xs:element name="cartaIdentita" type="complex:cartaIdentitaType"/>
+                    <!-- CHANGED: non si capisce a cosa serva questo element
                     <xs:element name="altriDati" type="complex:altriDatiType"/>
+                    -->
                 </xs:sequence>
             </xs:complexType>
         </xs:element>
@@ -117,8 +122,12 @@
                 <xs:choice>
                     <xs:sequence>
                         <xs:element name="testataRisposta" type="complex:testataRispostaType"/>
-                        <!-- WARINING: a cosa serve inoltrare un valore costante? -->
+                        
+                        <!-- CHANGED: eliminato inoltro valore costante 
+                        WARINING: a cosa serve inoltrare un valore costante? 
                         <xs:element name="operazioneRichiesta" type="complex:operazioneRichiestaType"/>
+                        -->
+
                         <xs:element name="cartaIdentita" type="complex:cartaIdentitaType"/>
                     </xs:sequence>
                     <xs:element name="rispostaKO" type="complex:rispostaKOType"/>
