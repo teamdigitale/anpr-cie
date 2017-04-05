@@ -1,0 +1,2184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema 
+    xmlns="http://sogei.it/ANPR/CIE0complexType" 
+    xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+    xmlns:simple="http://sogei.it/ANPR/CIE0simpleType"
+    targetNamespace="http://sogei.it/ANPR/CIE0complexType" 
+    elementFormDefault="unqualified" attributeFormDefault="unqualified">
+    
+    <xs:import namespace="http://sogei.it/ANPR/CIE0simpleType" schemaLocation="CIE0simpleType.xsd" />
+    
+    
+    <xs:complexType name="codiceFiscaleAllType">
+        <xs:sequence>
+            <xs:element name="codFiscale">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>Codice fiscale del soggetto</p>	
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            
+            <xs:element name="validitaCF">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>Flag che indica l'esito della validazione dei dati anagrafici con il servizio di AE</p>	
+                        <p><b>VALORI AMMESSI</b>
+                            <ol>
+                                <li>Valori presenti nella <a href="https://italia.github.io/anpr/tab/tab_stato_validazione_del_codice_fiscale.html.html" target="_self">tabella 22</a></li>							
+                            </ol>
+                        </p>                        			
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            
+            <xs:element name="dataAttribuzioneValidità" type="xs:date">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>Indica la data in cui è stato validato il codice fiscale</p>	
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>        
+    </xs:complexType>
+    
+    <xs:complexType name="comuneType">
+            <xs:sequence>
+                <xs:element name="nomeComune">
+                    <xs:annotation>
+                        <xs:documentation>
+                            <p>Nome del comune</p>	
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                        <xs:restriction base="simple:DIA1Type">
+                            <xs:minLength value="1"/>
+                            <xs:maxLength value="80"/>
+                        </xs:restriction>
+                    </xs:simpleType>                    
+                </xs:element>
+                
+                <xs:element name="codiceIstat">
+                    <xs:annotation>
+                        <xs:documentation>
+                            <p>Il codice ISTAT del comune</p>	
+                            <p><b>VALORI AMMESSI</b>
+                                <ol>
+                                    <li>Valori presenti nella <a href="https://italia.github.io/anpr/tab/tab_comuni.html.html" target="_self">tabella 3</a></li>							
+                                </ol>
+                            </p>
+                            <p><b>REGOLE / CONDIZIONI</b>
+                                <ol>
+                                    <li>Verifica esistenza codice nella tabella 3</li>
+                                </ol>
+                            </p>						
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                        <xs:restriction base="simple:ANType">                            
+                            <xs:length value="6"/>
+                        </xs:restriction>
+                    </xs:simpleType>                      
+                </xs:element>
+                
+                <xs:element name="siglaProvincia">
+                    <xs:annotation>
+                        <xs:documentation>
+                            <p>La sigla della provincia in cui si trova il comune</p>	
+                        </xs:documentation>
+                    </xs:annotation>                 
+                    <xs:simpleType>
+                        <xs:restriction base="simple:AType">
+                            <xs:length value="2"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:element>
+                
+                <!-- WARNING: in merito all'indicazione riportata in VALORI AMMESSI, cosi come da file excel comune.xlsx, ci si chiede se non sia il caso di tipizzare il comune per richiesta e risposta -->
+                <xs:element name="descrizioneLocalita" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>
+                            <p>Descrizione della località italiana. Non deve essere indicata se coincide con la descrizione del comune</p>	
+                            <p><b>VALORI AMMESSI</b>
+                                <ol>
+                                    <li>Utilizzato solo nelle risposte</li>
+                                </ol>
+                            </p>
+                        </xs:documentation>
+                    </xs:annotation>                 
+                    <xs:simpleType>
+                        <xs:restriction base="simple:ANType">
+                            <xs:minLength value="1"/>
+                            <xs:maxLength value="120"/>
+                        </xs:restriction>
+                    </xs:simpleType>                    
+                </xs:element>
+            </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="localitaType">
+            <xs:sequence>
+                <xs:element name="descrizioneLocalita" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>
+                            <p>Descrizione della località estera nella quale è avvenuto l'evento (Es. New York).</p>	
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                        <xs:restriction base="simple:DIA1Type">
+                            <xs:minLength value="1"/>
+                            <xs:maxLength value="120"/>
+                        </xs:restriction>                        
+                    </xs:simpleType>                    
+                </xs:element>
+                
+                <xs:element name="descrizioneStato">
+                    <xs:annotation>
+                        <xs:documentation>
+                            <p>Descrizione dello Stato a cui la località appartiene </p>	
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                        <xs:restriction base="simple:DIA1Type">
+                            <xs:minLength value="1"/>
+                            <xs:maxLength value="120"/>
+                        </xs:restriction>                        
+                    </xs:simpleType>                     
+                </xs:element>
+                
+                <xs:element name="codiceStato" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>
+                            <p>Il Codice dello Stato a cui la località appartiene </p>
+                            <p><b>VALORI AMMESSI</b>
+                                <ol>
+                                    <!-- WARNING: andrebbe chiarito quale codice usare? forse quello ISTAT? -->
+                                    <li>Valori presenti nella <a href="https://italia.github.io/anpr/tab/tab_stati_esteri.html.html" target="_self">tabella 2</a></li>							
+                                </ol>
+                            </p>
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                        <xs:restriction base="simple:NType">                            
+                            <xs:length value="3"/>
+                        </xs:restriction>                        
+                    </xs:simpleType>                   
+                </xs:element>
+                
+                <xs:element name="provinciaContea" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>
+                            <p>Descrizione provincia contea</p>	
+                            <p><b>REGOLE / CONDIZIONI</b>
+                                <ol>
+                                    <!-- WARNING: non è chiaro il significato -->
+                                    <li>Solo per iscritti AIRE</li>
+                                </ol>
+                            </p>
+                        </xs:documentation>                        
+                    </xs:annotation>
+                    <xs:simpleType>
+                        <xs:restriction base="simple:ANType">
+                            <xs:minLength value="1"/>
+                            <xs:maxLength value="30"/>
+                        </xs:restriction>                        
+                    </xs:simpleType>                    
+                </xs:element>
+                
+            </xs:sequence>        
+    </xs:complexType>
+    
+    <xs:complexType name="luogoEventoType">
+        <xs:sequence>
+            <xs:element name="luogoEccezionale" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>Indica se si tratta di un luogo eccezionale, non identificabile solo con un comune o una località (es: su una nave, in aereo, ecc.)</p>                        
+                        <p><b>REGOLE / CONDIZIONI</b>
+                            <ol>
+                                <li>Deve necessariamente essere presente almeno uno tra Comune e Località o LuogoEccezionale</li>
+                            </ol>
+                        </p>						
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="simple:ANType">
+                        <xs:minLength value="1"/>
+                        <xs:maxLength value="120"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            
+            <xs:element name="comune" type="comuneType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>Comune dell'evento</p>
+                        <p><b>REGOLE / CONDIZIONI</b>
+                            <ol>
+                                <li>Deve necessariamente essere presente almeno uno tra Comune e Località o LuogoEccezionale</li>
+                            </ol>
+                        </p>
+                    </xs:documentation>
+                </xs:annotation>                
+            </xs:element>
+            
+            <xs:element name="localita" type="localitaType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>La località non italiana dell'evento</p>
+                        <p><b>REGOLE / CONDIZIONI</b>
+                            <ol>
+                                <li>Deve necessariamente essere presente almeno uno tra Comune e Località o LuogoEccezionale</li>
+                            </ol>
+                        </p>
+                    </xs:documentation>
+                </xs:annotation>                
+            </xs:element>
+        </xs:sequence>
+        
+    </xs:complexType>
+    
+    <xs:complexType name="testataRichiestaType">
+            <xs:sequence>                
+                <xs:element name="idOperazioneComune">
+                    <xs:annotation>
+                        <xs:documentation>
+                            <p>Identificativo univoco attribuito all'operazione</p>	                            
+                            <p><b>REGOLE / CONDIZIONI</b>
+                                <ol>
+                                    <li>Numerico crescente</li>
+                                    <li>Se esiste in ANPR, il comune riceve come esito la risposta in precedenza fornita da ANPR con lo stesso ID</li>
+                                    <li>Se non esiste in ANPR e inferiore all'ultimo inviato, l'elaborazione termina con errore</li>
+                                </ol>
+                            </p>						
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                        <xs:restriction base="simple:ANType">
+                            <xs:minLength value="1"/>
+                            <!-- WARNING: Siamo sicuri della quantità di operazioni disponibili? -->                            
+                            <xs:maxLength value="30"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:element>
+                
+                <xs:element name="codMittente">
+                    <xs:annotation>
+                        <xs:documentation>
+                            <p>Il codice ISTAT del comune che effettua la richiesta</p>	
+                            <p><b>VALORI AMMESSI</b>
+                                <ol>
+                                    <li>Valori presenti nella <a href="https://italia.github.io/anpr/tab/tab_comuni.html.html" target="_self">tabella 3</a></li>							
+                                </ol>
+                            </p>
+                            <p><b>REGOLE / CONDIZIONI</b>
+                                <ol>
+                                    <li>Verifica esistenza codice nella tabella 3</li>
+                                </ol>
+                            </p>						
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                        <xs:restriction base="simple:ANType">
+                            <xs:length value="6"/>
+                        </xs:restriction>
+                    </xs:simpleType>                    
+                </xs:element>
+                
+                <!-- WARINING: a cosa serve inoltrare un valore costante? -->
+                <xs:element name="codDestinatario" fixed="ANPR00">
+                    <xs:annotation>
+                        <xs:documentation>
+                            <p>Il codice ISTAT del comune che effettua la richiesta</p>	
+                            <p><b>VALORI AMMESSI</b>
+                                <ol>
+                                    <li>ANPR00</li>							
+                                </ol>
+                            </p>                            				
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                        <xs:restriction base="simple:ANType">
+                            <xs:minLength value="1"/>
+                            <xs:maxLength value="6"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:element>
+                
+                <!-- WARINING: a cosa serve indicare l'operazione richiesta? Non basta l'operation chiamata? -->
+                <xs:element name="operazioneRichiesta">
+                    <xs:annotation>
+                        <xs:documentation>
+                            <p>Identificativo operazione richiesta</p>	
+                            <p><b>VALORI AMMESSI</b>
+                                <ol>
+                                    <li>CIE2, Interrogazione Dati Anagrafici</li>
+                                    <li>CIE8, Comunicazione Emissione</li>
+                                    <li>CIE7, Comunicazione Annullamento</li>
+                                </ol>
+                            </p>                            						
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                        <xs:restriction base="simple:ANType">
+                            <xs:enumeration value="CIE2"/>
+                            <xs:enumeration value="CIE8"/>
+                            <xs:enumeration value="CIE7"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:element>
+                
+                <!-- WARINING: a cosa serve la data e ora dell'operazione richiesta? Non basta il timestamp della ricezione della richiesta?-->
+                <xs:element name="dataOraRichiesta" type="xs:dateTime"  >
+                    <xs:annotation>
+                        <xs:documentation>
+                            <p>La data e ora in cui si invia la comunicazione anagrafica ad ANPR</p>	
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                
+                <!-- WARINING: a cosa serve inoltrare un valore costante? -->
+                <xs:element name="tipoOperazione" fixed="C">
+                    <xs:annotation>
+                        <xs:documentation>
+                            <p>L'identificativo dell'operazione</p>	
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                        <xs:restriction base="simple:ANType">
+                            <xs:length value="1"/>                            
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:element>
+                
+                <!-- WARINING: nella descrizione del file excel testataRichiesta.xlsx è indicato "non utilizzato", quindi bisogna eliminarlo? -->
+                <xs:element name="protocolloComune" minOccurs="0">
+                    <xs:simpleType>
+                        <xs:restriction base="simple:CharType">
+                            <xs:minLength value="1"/>
+                            <xs:maxLength value="20"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:element>
+                
+                <!-- WARINING: nella descrizione del file excel testataRichiesta.xlsx è indicato "non utilizzato", quindi bisogna eliminarlo? -->
+                <xs:element name="dataProtocolloComune" type="xs:date" minOccurs="0"/>
+                
+                <!-- WARINING: a cosa serve l'indicazione dell'ambiente? I serizi dei vari ambienti non sono esposti su endpoint differenti?-->
+                <xs:element name="tipoInvio"  >
+                    <xs:annotation>
+                        <xs:documentation>
+                            <p>Specifica in quale ambiente si esegue il servizio</p>	
+                            <p><b>VALORI AMMESSI</b>
+                                <ol>
+                                    <li>TEST</li>	
+                                    <li>PRE_SUB</li>
+                                    <li>PROD</li>
+                                </ol>
+                            </p>
+                            <p><b>REGOLE / CONDIZIONI</b>
+                                <ol>
+                                    <li>Si verifica se il parametro è compatibile con l'ambiente di riferimento; se non compatibile il servizio termina con errore</li>
+                                </ol>
+                            </p>						
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                        <xs:restriction base="simple:CharType">
+                            <xs:enumeration value="TEST"/>
+                            <xs:enumeration value="PRE_SUB"/>
+                            <xs:enumeration value="PROD"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:element>
+                
+                <!-- WARINING: nella descrizione del file excel testataRichiesta.xlsx è indicato "non utilizzato", quindi bisogna eliminarlo? -->
+                <xs:element name="dataDecorrenza" type="xs:date" minOccurs="0"/>
+                
+                <!-- WARINING: a cosa serve? -->
+                <xs:element name="nomeApplicativo" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>
+                            <p>Nome dell'applicativo che ha effettuato la richiesta</p>	
+                        </xs:documentation>
+                    </xs:annotation> 
+                    <xs:simpleType>
+                        <xs:restriction base="simple:ANType">
+                            <xs:minLength value="1"/>
+                            <xs:maxLength value="80"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:element>
+                
+                <!-- WARINING: a cosa serve? -->
+                <xs:element name="versioneApplicativo" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>
+                            <p>Versione dell'applicativo che ha effettuato la richiesta</p>	
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                        <xs:restriction base="simple:ANType">
+                            <xs:minLength value="1"/>
+                            <xs:maxLength value="80"/>
+                        </xs:restriction>
+                    </xs:simpleType>                    
+                </xs:element>
+                
+                <!-- WARINING: a cosa serve inoltrare un valore costante? -->
+                <xs:element name="fornitoreApplicativo" minOccurs="0" fixed="IPZS">
+                    <xs:annotation>
+                        <xs:documentation>
+                            <p>Fornitore dell'applicativo che ha effettuato la richiesta</p>	
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                        <xs:restriction base="simple:ANType">
+                            <xs:minLength value="1"/>
+                            <xs:maxLength value="80"/>
+                        </xs:restriction>
+                    </xs:simpleType>                    
+                </xs:element>
+                                
+                <xs:element name="versioneDelServizio" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>
+                            <p>Versione del servizio richiesto</p>	
+                        </xs:documentation>
+                    </xs:annotation> 
+                    <xs:simpleType>
+                        <xs:restriction base="simple:ANType">
+                            <xs:minLength value="1"/>
+                            <xs:maxLength value="80"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:element>
+                
+                
+            </xs:sequence>                 
+    </xs:complexType>
+    
+    <xs:complexType name="datiControlloType">
+        <xs:sequence>
+            <xs:element name="comuneResidenza">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>Comune ne quale risiede il soggetto o nel quale è iscritto all'AIRE</p>
+                        <p><b>VALORI AMMESSI</b>
+                            <ol>
+                                <!-- WARNING: forse è sfugito il vincolo con la tabella 3 dei codici comune, come da file CIE2-Integrazione.xlsx -->
+                                <li>Codice ISTAT</li>							
+                            </ol>
+                        </p>
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="simple:ANType">                            
+                        <xs:length value="6"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            
+            <!-- WARNING: ho tipizzato a boolean in considerazione della semantica dell'element, originariamente era un numero di 1 cifra come da file excel CIE2-Integrazione.xlsx -->
+            <xs:element name="soggettoAIRE" type="xs:boolean" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p></p>	                        
+                        <p><b>REGOLE / CONDIZIONI</b>
+                            <ol>
+                                <li>Se TRUE si richiede una interrogazione sui dati AIRE</li>
+                            </ol>
+                        </p>						
+                    </xs:documentation>
+                </xs:annotation>                
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="generalitaRichiestaType">
+        <xs:sequence>
+            <xs:element name="codiceFiscale" type="simple:CodiceFiscaleType">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>Codice fiscale del soggetto</p>	
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            
+            <xs:element name="cognome"  minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>Cognome del soggetto</p>	
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="simple:DIA1Type">
+                        <xs:minLength value="1"/>
+                        <xs:maxLength value="80"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            
+            <!-- WARNING: ho tipizzato a boolean in considerazione della semantica dell'element, originariamente era un numero di 1 cifra come da file excel generalitaperricerca.xlsx-->
+            <xs:element name="senzaCognome" type="xs:boolean" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>Indica se soggetto è primo di cognome</p>	                        
+                        <p><b>REGOLE / CONDIZIONI</b>
+                            <ol>
+                                <li>Se vale TRUE deve essere presente il nome</li>
+                            </ol>
+                        </p>						
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            
+            <xs:element name="nome" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>Cognome del soggetto</p>	
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="simple:DIA1Type">
+                        <xs:minLength value="1"/>
+                        <xs:maxLength value="80"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            
+            <!-- WARNING: ho tipizzato a boolean in considerazione della semantica dell'element, originariamente era un numero di 1 cifra come da file excel generalitaperricerca.xlsx-->
+            <xs:element name="senzaNome" type="xs:boolean" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>Indica se soggetto è primo di nome</p>	                        
+                        <p><b>REGOLE / CONDIZIONI</b>
+                            <ol>
+                                <li>Se vale TRUE deve essere presente il cognome</li>
+                            </ol>
+                        </p>						
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            
+            <xs:element name="sesso" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>Il sesso del soggetto</p>	
+                        <p><b>VALORI AMMESSI</b>
+                            <ol>
+                                <li>F, femmina</li>							
+                                <li>M, maschio</li>
+                                <li>N, non conosciuto</li>
+                            </ol>
+                        </p>                        				
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="simple:AType">
+                        <xs:enumeration value="F"/>
+                        <xs:enumeration value="M"/>
+                        <xs:enumeration value="N"/>
+                    </xs:restriction>
+                </xs:simpleType>                
+            </xs:element>
+            
+            <xs:element name="dataNascita" type="xs:date" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>La data di nascita del soggetto</p>	
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            
+            <!-- WARNING: ho tipizzato a boolean in considerazione della semantica dell'element, originariamente era un numero di 1 cifra come da file excel generalitaperricerca.xlsx-->
+            <xs:element name="senzaGiorno" type="xs:boolean" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p></p>	
+                        <p><b>VALORI AMMESSI</b>
+                            <ol>
+                                <li>Se TRUE allora data nascita solo mese e anno</li>							
+                            </ol>
+                        </p>                        						
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            
+            <!-- WARNING: ho tipizzato a boolean in considerazione della semantica dell'element, originariamente era un numero di 1 cifra come da file excel generalitaperricerca.xlsx-->
+            <xs:element name="senzaGiornoMese" type="xs:boolean" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p></p>	
+                        <p><b>VALORI AMMESSI</b>
+                            <ol>
+                                <li>Se TRUE allora data nascita solo anno</li>							
+                            </ol>
+                        </p>                        			
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            
+            <xs:element name="luogoNascita" type="luogoEventoType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>Luogo di nascita del soggetto</p>	
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            
+            <xs:element name="idSchedaSoggettoANPR" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>Identificativo della scheda soggetto attribuito da ANPR</p>	
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="simple:NType">
+                        <xs:minLength value="1"/>
+                        <xs:maxLength value="15"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="testataRispostaType">
+        <xs:sequence>                
+            <xs:element name="idOperazioneComune">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>Contiene l'identificativo specificato nel messaggio di richiesta</p>	                                                    				
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="simple:ANType">
+                        <xs:minLength value="1"/>
+                        <xs:maxLength value="30"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            
+            <!-- WARINING: a cosa serve inoltrare un valore costante? -->
+            <xs:element name="codMittente" fixed="ANPR00">
+                <xs:annotation>
+                    <xs:documentation>                        	
+                        <p><b>VALORI AMMESSI</b>
+                            <ol>
+                                <li>ANPR00</li>							
+                            </ol>
+                        </p>                            				
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="simple:ANType">
+                        <xs:minLength value="1"/>
+                        <xs:maxLength value="6"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            
+            <xs:element name="codDestinatario">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>Contiene il codice del mittente specificato nel messaggio di richiesta</p>	                        					
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="simple:ANType">
+                        <xs:length value="6"/>
+                    </xs:restriction>
+                </xs:simpleType>                    
+            </xs:element>
+            
+            <!-- WARINING: a cosa serve indicare l'operazione richiesta? Non basta l'operation chiamata? Se necessario sarebbe possibile limitare i valori cosi come in richiesta? -->
+            <xs:element name="operazioneRichiesta">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>Ricavato dal messaggio di richiesta</p>	                                                    					
+                    </xs:documentation>
+                </xs:annotation>                
+            </xs:element>
+            
+            <!-- WARINING: a cosa serve la data e ora dell'operazione richiesta? Non basta l'idOperazioneComune? -->
+            <xs:element name="dataOraRichiesta" type="xs:dateTime"  >
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>Ricavato dal messaggio di richiesta</p>	
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            
+            <!-- WARINING: nella descrizione del file excel testataRichiesta.xlsx è indicato "non utilizzato", quindi bisogna eliminarlo? -->
+            <xs:element name="protocolloComune" minOccurs="0">
+                <xs:simpleType>
+                    <xs:restriction base="simple:CharType">
+                        <xs:minLength value="1"/>
+                        <xs:maxLength value="20"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            
+            <!-- WARINING: nella descrizione del file excel testataRichiesta.xlsx è indicato "non utilizzato", quindi bisogna eliminarlo? -->
+            <xs:element name="dataProtocolloComune" type="xs:date" minOccurs="0"/>
+            
+            <!-- WARINING: nella descrizione del file excel testataRichiesta.xlsx è indicato "non utilizzato", quindi bisogna eliminarlo? -->
+            <xs:element name="dataDecorrenza" type="xs:date" minOccurs="0"/>
+            
+            <xs:element name="idOperazioneANPR">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>Identificativo univoco attribuito all'operazione da ANPR</p>	                        	
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="simple:NType">
+                        <xs:minLength value="1"/>
+                        <!-- WARNING: Siamo sicuri della quantità di operazioni disponibili? -->
+                        <xs:maxLength value="30"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            
+            <xs:element name="esitoOperazione">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>Codice che identifica l’esito complessivo dell’operazione</p>	                        
+                        <p><b>REGOLE / CONDIZIONI</b>
+                            <ol>
+                                <!-- WARNING: forse sarebbe utile avere la codifica di tali condizioni -->
+                                <li>E’ un codice che indica se l’operazione è terminata con successo oppure con segnalazioni o errori</li>
+                            </ol>
+                        </p>						
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="simple:ANType">
+                        <xs:length value="4"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+        </xs:sequence>                        
+    </xs:complexType>
+    
+    <xs:complexType name="generalitaType">
+        <xs:sequence>
+            <xs:element name="codiceFiscale" type="codiceFiscaleAllType">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>Codice fiscale del soggetto</p>	
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            
+            <xs:element name="cognome"  minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>Cognome del soggetto</p>	
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="simple:DIA1Type">
+                        <xs:minLength value="1"/>
+                        <xs:maxLength value="80"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            
+            <!-- WARNING: a cosa serve, non basta cognome = NULL? ho tipizzato a boolean in considerazione della semantica dell'element, originariamente era un numero di 1 cifra come da file excel generalita.xlsx-->
+            <xs:element name="senzaCognome" type="xs:boolean" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>Indica se soggetto è primo di cognome</p>	                        
+                        <p><b>REGOLE / CONDIZIONI</b>
+                            <ol>
+                                <li>Se vale TRUE deve essere presente il nome</li>
+                            </ol>
+                        </p>						
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            
+            <xs:element name="nome" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>Cognome del soggetto</p>	
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="simple:DIA1Type">
+                        <xs:minLength value="1"/>
+                        <xs:maxLength value="80"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            
+            <!-- WARNING: a cosa serve, non basta nome = NULL?ho tipizzato a boolean in considerazione della semantica dell'element, originariamente era un numero di 1 cifra come da file excel generalita.xlsx-->
+            <xs:element name="senzaNome" type="xs:boolean" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>Indica se soggetto è primo di nome</p>	                        
+                        <p><b>REGOLE / CONDIZIONI</b>
+                            <ol>
+                                <li>Se vale TRUE deve essere presente il cognome</li>
+                            </ol>
+                        </p>						
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            
+            <xs:element name="sesso" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>Il sesso del soggetto</p>	
+                        <p><b>VALORI AMMESSI</b>
+                            <ol>
+                                <li>F, femmina</li>							
+                                <li>M, maschio</li>
+                                <li>N, non conosciuto</li>
+                            </ol>
+                        </p>                        				
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="simple:AType">
+                        <xs:enumeration value="F"/>
+                        <xs:enumeration value="M"/>
+                        <xs:enumeration value="N"/>
+                    </xs:restriction>
+                </xs:simpleType>                
+            </xs:element>
+            
+            <xs:element name="dataNascita" type="xs:date" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>La data di nascita del soggetto</p>	
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            
+            <!-- WARNING: ho tipizzato a boolean in considerazione della semantica dell'element, originariamente era un numero di 1 cifra come da file excel generalita.xlsx-->
+            <xs:element name="senzaGiorno" type="xs:boolean" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p></p>	
+                        <p><b>VALORI AMMESSI</b>
+                            <ol>
+                                <li>Se TRUE allora data nascita solo mese e anno</li>							
+                            </ol>
+                        </p>                        						
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            
+            <!-- WARNING: ho tipizzato a boolean in considerazione della semantica dell'element, originariamente era un numero di 1 cifra come da file excel generalita.xlsx-->
+            <xs:element name="senzaGiornoMese" type="xs:boolean" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p></p>	
+                        <p><b>VALORI AMMESSI</b>
+                            <ol>
+                                <li>Se TRUE allora data nascita solo anno</li>							
+                            </ol>
+                        </p>                        			
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            
+            <xs:element name="luogoNascita" type="luogoEventoType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>Luogo di nascita del soggetto</p>	
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            
+            <!-- WARNING: ho tipizzato a boolean in considerazione della semantica dell'element, originariamente era un numero di 1 cifra come da file excel generalita.xlsx-->
+            <xs:element name="soggettoAIRE" type="xs:boolean">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>Specifica se si tratta di un cittadino italiano residente all'estero</p>	
+                        <p><b>REGOLE / CONDIZIONI</b>
+                            <ol>
+                                <li>Se TRUE soggetto iscritto all'AIRE</li>
+                            </ol>
+                        </p>
+                    </xs:documentation>
+                </xs:annotation>                
+            </xs:element>
+            
+            <xs:element name="idSchedaSoggettoANPR" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>Identificativo della scheda soggetto attribuito da ANPR</p>	
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="simple:NType">
+                        <xs:minLength value="1"/>
+                        <xs:maxLength value="15"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+        </xs:sequence>
+        
+    </xs:complexType>
+    
+    <xs:complexType name="attoNascitaType">
+        <xs:sequence>
+            <xs:element name="comuneRegistrazione" type="comuneType">
+                <xs:annotation>
+                    <xs:documentation>
+                        <!-- WARNING: basta il comune di trascrizione per CIE? -->
+                        <p>Indica il comune di formazione/trascrizione</p>	
+                    </xs:documentation>
+                </xs:annotation>
+                
+            </xs:element>
+            
+            <xs:element name="ufficioMunicipio">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>Ufficio o il municipio in cui si registra </p>	
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="simple:ANType">
+                        <xs:minLength value="1"/>
+                        <xs:maxLength value="4"/>
+                    </xs:restriction>
+                </xs:simpleType>                
+            </xs:element>
+            
+            <xs:element name="anno">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>Anno in cui si registra</p>	
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="simple:NType">
+                        <xs:length value="4"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            
+            <xs:element name="parte">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>Parte</p>	
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="simple:ANType">
+                        <xs:minLength value="1"/>
+                        <xs:maxLength value="5"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            
+            <xs:element name="serie">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>Serie</p>	
+                    </xs:documentation>
+                </xs:annotation> 
+                <xs:simpleType>
+                    <xs:restriction base="simple:ANType">
+                        <xs:minLength value="1"/>
+                        <xs:maxLength value="10"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            
+            <xs:element name="numeroAtto">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>Numero Atto</p>	
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="simple:ANType">
+                        <xs:minLength value="1"/>
+                        <xs:maxLength value="20"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            
+            <xs:element name="volume">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>Volume in cui presente</p>	
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="simple:ANType">
+                        <xs:minLength value="1"/>
+                        <xs:maxLength value="5"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            
+            <xs:element name="dataFormazioneAtto" type="xs:date">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>Data formazione atto</p>	
+                    </xs:documentation>
+                </xs:annotation>    
+            </xs:element>
+            
+            <!-- WARNING: ho tipizzato a boolean in considerazione della semantica dell'element, originariamente era un numero di 1 cifra come da file excel atto.xlsx -->
+            <xs:element name="trascritto" type="xs:boolean">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>Indica se sia o meno originale (iscrizione/trascrizione)</p>	
+                        <p><b>REGOLE / CONDIZIONI</b>
+                            <ol>
+                                <li>Se TRUE allora trascritto</li>
+                            </ol>
+                        </p>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>    
+    </xs:complexType>
+    
+    <xs:complexType name="altriDatiType">
+        <xs:sequence>
+            <xs:element name="posizioneProfessionale">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p></p>	
+                        <p><b>VALORI AMMESSI</b>
+                            <ol>                                
+                                <li>Valori presenti nella <a href="https://italia.github.io/anpr/tab/tab_posizione_nella_professione.html.html" target="_self">tabella 9</a></li>							
+                            </ol>
+                        </p>                        			
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="simple:ANType">
+                        <xs:minLength value="1"/>
+                        <xs:maxLength value="2"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            
+            <xs:element name="condizioneNonProfessionale">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p></p>	
+                        <p><b>VALORI AMMESSI</b>
+                            <ol>
+                                <li>Valori presenti nella <a href="https://italia.github.io/anpr/tab/tab_condizione_non_professionale.html.html" target="_self">tabella 10</a></li>							
+                            </ol>
+                        </p>                        			
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="simple:NType">
+                        <xs:minLength value="1"/>
+                        <xs:maxLength value="2"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            
+            <xs:element name="titoloStudio">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p></p>	
+                        <p><b>VALORI AMMESSI</b>
+                            <ol>
+                                <li>Valori presenti nella <a href="https://italia.github.io/anpr/tab/tab_titolo_di_studio.html.html" target="_self">tabella 11</a></li>							
+                            </ol>
+                        </p>                        			
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="simple:ANType">
+                        <xs:minLength value="1"/>
+                        <xs:maxLength value="2"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>            
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="statoCivileType">
+        <xs:sequence>
+            <xs:element name="statoCivile">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>Stato civile</p>	
+                        <p><b>VALORI AMMESSI</b>
+                            <ol>
+                                <li>Valori presenti nella <a href="https://italia.github.io/anpr/tab/tab_stato_civile.html.html" target="_self">tabella 1</a></li>							
+                            </ol>
+                        </p>
+                        <p><b>REGOLE / CONDIZIONI</b>
+                            <ol>
+                                <li>Verifica codice</li>
+                            </ol>
+                        </p>						
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="simple:NType">
+                        <xs:minLength value="1"/>
+                        <xs:maxLength value="2"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            
+            <xs:element name="noteStatoCivile" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>Nota stato civile</p>	                        
+                        <p><b>REGOLE / CONDIZIONI</b>
+                            <ol>
+                                <li>E' valorizzato solo nel caso in cui lo Stato Civile sia 9 - Non classificabile / ignoto / non documentato  </li>
+                            </ol>
+                        </p>						
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="simple:ANType">
+                        <xs:minLength value="1"/>
+                        <xs:maxLength value="240"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            
+            <!-- WARNING: non basta statoCivile=NULL? ho tipizzato a boolean in considerazione della semantica dell'element, originariamente era un numero di 1 cifra come da file excel statoCivile.xlsx -->
+            <xs:element name="statoCivileND" type="xs:boolean" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>Stato civile non disponibile</p>	                        
+                        <p><b>REGOLE / CONDIZIONI</b>
+                            <ol>
+                                <li>Se TRUE stato civile non documentato</li>
+                            </ol>
+                        </p>						
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <!-- ERROR: Si è rienterpretato il popolamento degli element DA VERIFICARE L'INTENZIONE -->
+    <xs:complexType name="toponimoType">
+        <xs:sequence>            
+            <xs:choice>
+                <xs:element name="codSpecie">
+                    <xs:annotation>
+                        <xs:documentation>
+                            <p>Il codice attribuito alla DUG</p>	                        
+                            <p><b>REGOLE / CONDIZIONI</b>
+                                <ol>
+                                    <!-- ERROR: Manca tabella in Github -->
+                                    <li>Tabella 4</li>
+                                </ol>
+                            </p>						
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                        <xs:restriction base="simple:NType">
+                            <xs:minLength value="1"/>
+                            <xs:maxLength value="4"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:element>
+    
+                <xs:element name="descrizioneSpecie">
+                    <xs:annotation>
+                        <xs:documentation>
+                            <p>La descrizione della DUG</p>	
+                            <p><b>VALORI AMMESSI</b>
+                                <ol>
+                                    <li>Codice utilizzato per la DUG  (denominazione urbana generica) dell’indirizzo secondo le tabelle comunali</li>							
+                                </ol>
+                            </p>
+                            <p><b>REGOLE / CONDIZIONI</b>
+                                <ol>
+                                    <li>Obbligatorio se specieFonte = 2</li>
+                                </ol>
+                            </p>						
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                        <xs:restriction base="simple:DIA1Type">
+                            <xs:minLength value="1"/>
+                            <xs:maxLength value="30"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:element>
+            </xs:choice>
+            
+            <!-- WARNING: Si è implementato una choice tra codSpecie e descrizioneSpecie, potrebbe essere eliminato? -->
+            <!-- WARNING: ho tipizzato a boolean in considerazione della semantica dell'element, originariamente era un numero di 1 cifra come da file excel tomponimo.xlsx -->
+            <xs:element name="specieFonte" type="xs:boolean" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>Indica la provenienza della DUG</p>	                       
+                        <p><b>REGOLE / CONDIZIONI</b>
+                            <ol>
+                                <li>Se TRUE allora è stato popolato codSpecie da tabella 4, altrimenti popolato descrizioneSpecie come da tabella Comunale</li>
+                            </ol>
+                        </p>						
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            
+            <xs:choice>
+                <xs:element name="codToponimo" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>
+                            <p>Codice identificativo attribuito al toponimo nella banca dati comunale/nazionale</p>	                        
+                            <p><b>REGOLE / CONDIZIONI</b>
+                                <ol>
+                                    <li>Codice assegnato dal comune al toponimo</li>
+                                </ol>
+                            </p>						
+                        </xs:documentation>                    
+                    </xs:annotation>       
+                    <xs:simpleType>
+                        <xs:restriction base="simple:ANType">
+                            <xs:minLength value="1"/>
+                            <xs:maxLength value="6"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:element>
+                
+                <xs:element name="denominazioneToponimo">
+                    <xs:annotation>
+                        <xs:documentation>
+                            <p>La denominazione del toponimo </p>	                       		
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                        <xs:restriction base="simple:DIA1Type">
+                            <xs:minLength value="1"/>
+                            <xs:maxLength value="100"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:element>
+            </xs:choice>
+            
+            <!-- WARNING: Si è implementato una choice tra codSpecie e descrizioneSpecie, potrebbe essere eliminato? -->
+            <!-- WARNING: ho tipizzato a boolean in considerazione della semantica dell'element, originariamente era un numero di 1 cifra come da file excel tomponimo.xlsx -->
+            <xs:element name="toponimoFonte" type="xs:boolean" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>Indica la provenienza della DUG</p>	                       
+                        <p><b>REGOLE / CONDIZIONI</b>
+                            <ol>
+                                <!-- WARNING: Di quale tabella si tratta? -->
+                                <li>Se TRUE allora è stato popolato codToponimo dalla tabella ISTAT, altrimenti popolato descrizioneSpecie come da tabella Comunale</li>
+                            </ol>
+                        </p>						
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>        
+    </xs:complexType>
+    
+    <xs:complexType name="civicoInternoType">
+        <xs:sequence>
+            <xs:element name="corte" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>Corte</p>	
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="simple:ANType">
+                        <xs:minLength value="1"/>
+                        <xs:maxLength value="4"/>
+                    </xs:restriction>
+                </xs:simpleType>                
+            </xs:element>
+            
+            <xs:element name="scala" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>Scale</p>	
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="simple:ANType">
+                        <xs:minLength value="1"/>
+                        <xs:maxLength value="4"/>
+                    </xs:restriction>
+                </xs:simpleType>                
+            </xs:element>
+            
+            <xs:element name="interno1" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>Interno</p>	
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="simple:ANType">
+                        <xs:minLength value="1"/>
+                        <xs:maxLength value="4"/>
+                    </xs:restriction>
+                </xs:simpleType>                
+            </xs:element>
+            
+            <xs:element name="espInterno1" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>bis, tris, quater, ...</p>	
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="simple:ANType">
+                        <xs:minLength value="1"/>
+                        <xs:maxLength value="20"/>
+                    </xs:restriction>
+                </xs:simpleType>                
+            </xs:element>
+            
+            <xs:element name="interno2" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>Interno</p>	
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="simple:ANType">
+                        <xs:minLength value="1"/>
+                        <xs:maxLength value="4"/>
+                    </xs:restriction>
+                </xs:simpleType>                
+            </xs:element>
+            
+            <xs:element name="espInterno2" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>bis, tris, quater, ...</p>	
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="simple:ANType">
+                        <xs:minLength value="1"/>
+                        <xs:maxLength value="20"/>
+                    </xs:restriction>
+                </xs:simpleType>                
+            </xs:element>
+            
+            <xs:element name="scalaEsterna" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>Scala Esterna</p>	
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="simple:ANType">
+                        <xs:minLength value="1"/>
+                        <xs:maxLength value="10"/>
+                    </xs:restriction>
+                </xs:simpleType>                
+            </xs:element>
+            
+            <xs:element name="secondario" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>Lettera indicante il numero secondario - generalmente si riferisce ai negozi</p>	
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="simple:ANType">
+                        <xs:length value="1"/>                        
+                    </xs:restriction>
+                </xs:simpleType>                
+            </xs:element>
+            
+            <xs:element name="piano" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>Piano</p>	
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="simple:ANType">
+                        <xs:minLength value="1"/>
+                        <xs:maxLength value="3"/>
+                    </xs:restriction>
+                </xs:simpleType>                
+            </xs:element>
+            
+            <xs:element name="nui" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>Numero unità immobiliare</p>	
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="simple:ANType">
+                        <xs:minLength value="1"/>
+                        <xs:maxLength value="3"/>
+                    </xs:restriction>
+                </xs:simpleType>                
+            </xs:element>
+            
+            <xs:element name="isolato" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>Numero isolato</p>	
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="simple:ANType">
+                        <xs:minLength value="1"/>
+                        <xs:maxLength value="20"/>
+                    </xs:restriction>
+                </xs:simpleType>                
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="numeroCivicoType">
+        <xs:sequence>
+            <xs:element name="codiceCivico" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>Codice identificativo attribuito al numero civico nella banca dati comunale/nazionale</p>	
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="simple:ANType">
+                        <xs:minLength value="1"/>
+                        <xs:maxLength value="10"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            
+            <xs:element name="civicoFonte" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>Indica la provenienza del codice civico</p>	
+                        <p><b>VALORI AMMESSI</b>
+                            <ol>
+                                <li>1, se specie è ricavato dalla tabella  nazionale</li>
+                                <li>2, se specie è ricavato dalla tabella del comune</li>
+                            </ol>
+                        </p>
+                        <p><b>REGOLE / CONDIZIONI</b>
+                            <ol>
+                                <li>Obbligatorio se è valorizzato codiceCivico</li>
+                            </ol>
+                        </p>						
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="simple:NType">
+                        <xs:length value="1"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            
+            <xs:choice>
+                <xs:element name="numero">
+                    <xs:annotation>
+                        <xs:documentation>
+                            <p>Il numero civico</p>	
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                        <xs:restriction base="simple:NType">
+                            <xs:minLength value="1"/>
+                            <xs:maxLength value="20"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:element>
+                
+                <xs:element name="metrico">
+                    <xs:annotation>
+                        <xs:documentation>
+                            <p>Distanza tra l'accesso e il punto di riferimento prestabilito, espresso in metri</p>	
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                        <xs:restriction base="simple:NType">
+                            <xs:minLength value="1"/>
+                            <xs:maxLength value="6"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:element>
+            </xs:choice>
+            
+            <xs:element name="progSNC" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>Progressivo dopo l'ultimo civico presente</p>	
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="simple:NType">
+                        <xs:minLength value="1"/>
+                        <xs:maxLength value="5"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            
+            <xs:element name="lettera" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>La lettera del civico</p>	
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="simple:ANType">
+                        <xs:minLength value="1"/>
+                        <xs:maxLength value="10"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            
+            <xs:element name="esponente1" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>Esponente relativo al civico (ad esempio: bis, ter, quater …)</p>	
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="simple:ANType">
+                        <xs:minLength value="1"/>
+                        <xs:maxLength value="20"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+        
+            <xs:element name="colore" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>Il colore del civico</p>	
+                        <p><b>VALORI AMMESSI</b>
+                            <ol>
+                                <li>1=rosso</li>
+                                <li>2=nero</li>
+                                <li>3=blu</li>
+                                <li>4=residenziale</li>
+                                <li>5=non residenziale</li>							
+                            </ol>
+                        </p>                        				
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="simple:NType">
+                        <xs:enumeration value="1"/>
+                        <xs:enumeration value="2"/>
+                        <xs:enumeration value="3"/>
+                        <xs:enumeration value="4"/>
+                        <xs:enumeration value="5"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            
+            <xs:element name="civicoInterno" type="civicoInternoType" minOccurs="0"/>
+        </xs:sequence>        
+    </xs:complexType>
+    
+    <xs:complexType name="indirizzoType">
+        <xs:sequence>
+            <xs:element name="cap">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>Codice avviamento postale</p>	
+                    </xs:documentation>
+                </xs:annotation> 
+                <xs:simpleType>
+                    <xs:restriction base="simple:ANType">
+                        <xs:minLength value="1"/>
+                        <xs:maxLength value="5"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            
+            <xs:element name="comune" type="comuneType">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>Comune a cui si riferisce</p>	
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            
+            <xs:element name="frazione" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>Frazione del Comune</p>	
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="simple:ANType">
+                        <xs:minLength value="1"/>
+                        <xs:maxLength value="80"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            
+            <xs:element name="toponimo" type="toponimoType">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>Toponimo</p>	
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            
+            <xs:element name="numeroCivico" type="numeroCivicoType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>Numero civico</p>	
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>        
+    </xs:complexType>
+       
+    <xs:complexType name="localitaEsteraType">
+        <xs:sequence>
+            <xs:element name="cap" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>Codice avviamento postale</p>	
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="simple:ANType">
+                        <xs:minLength value="1"/>
+                        <xs:maxLength value="10"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            
+            <xs:element name="localita" type="localitaType">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>La località non italiana a cui il luogo si riferisce </p>	
+                    </xs:documentation>
+                </xs:annotation>            
+            </xs:element>
+            
+            <xs:element name="toponimo" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>Il toponimo della località estera</p>
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="denominazione" minOccurs="0">
+                            <xs:annotation>
+                                <xs:documentation>
+                                    <p>La denominazione del toponimo</p>	                                                                        				
+                                </xs:documentation>
+                            </xs:annotation>
+                            <xs:simpleType>
+                                <xs:restriction base="simple:DIA1Type">
+                                    <xs:minLength value="1"/>
+                                    <xs:maxLength value="100"/>
+                                </xs:restriction>
+                            </xs:simpleType>
+                        </xs:element>
+                        
+                        <xs:element name="numeroCivico" minOccurs="0">
+                            <xs:annotation>
+                                <xs:documentation>
+                                    <p>Codice identificativo ufficiale del numero civico</p>	                                                                        				
+                                </xs:documentation>
+                            </xs:annotation>
+                            <xs:simpleType>
+                                <xs:restriction base="simple:ANType">
+                                    <xs:minLength value="1"/>
+                                    <xs:maxLength value="9"/>
+                                </xs:restriction>
+                            </xs:simpleType>
+                        </xs:element>                      
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="consolato">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="codiceConsolato">
+                            <xs:annotation>
+                                <xs:documentation>
+                                    <p>Il Codice del Consolato di residenza</p>	
+                                    <p><b>VALORI AMMESSI</b>
+                                        <ol>
+                                            <!-- ERROR: la tabella non è presente su Github -->
+                                            <li>tabella 24</li>							
+                                        </ol>
+                                    </p>                                    						
+                                </xs:documentation>
+                            </xs:annotation>
+                            <xs:simpleType>
+                                <xs:restriction base="simple:ANType">
+                                    <xs:minLength value="1"/>
+                                    <xs:maxLength value="7"/>
+                                </xs:restriction>
+                            </xs:simpleType>
+                        </xs:element>
+                        
+                        <xs:element name="descrizioneConsolato">
+                            <xs:annotation>
+                                <xs:documentation>
+                                    <p>Descrizione del Consolato</p>	                                                                       					
+                                </xs:documentation>
+                            </xs:annotation>
+                            <xs:simpleType>
+                                <xs:restriction base="simple:DIA1Type">
+                                    <xs:minLength value="1"/>
+                                    <xs:maxLength value="80"/>
+                                </xs:restriction>
+                            </xs:simpleType>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>                
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="residenzaType">
+        <xs:sequence>
+            <xs:element name="tipoIndirizzo">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>Tipo indirizzo</p>	
+                        <p><b>VALORI AMMESSI</b>
+                            <ol>
+                                <li>Valori presenti nella <a href="https://italia.github.io/anpr/tab/tab_tipo_indirizzo.html.html" target="_self">tabella 25</a></li>							
+                            </ol>
+                        </p>
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="simple:NType">
+                        <xs:minLength value="1"/>
+                        <xs:maxLength value="2"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            
+            <xs:element name="noteIndirizzo" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>Note sull'indirizzo</p>	
+                        <p><b>REGOLE / CONDIZIONI</b>
+                            <ol>
+                                <li>Obbligatorio se tipoIndirizzo = 9 - altro</li>
+                            </ol>
+                        </p>
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="simple:ANType">
+                        <xs:minLength value="1"/>
+                        <xs:maxLength value="240"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            
+            <xs:choice>
+                <xs:element name="indirizzo" type="indirizzoType">
+                    <xs:annotation>
+                        <xs:documentation>
+                            <p></p>
+                            <p><b>REGOLE / CONDIZIONI</b>
+                                <ol>
+                                    <li>In alternativa a localitaEstera per tipoIndirizzo diverso da 4 e 6</li>
+                                </ol>
+                            </p>
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                
+                <xs:element name="localitaEstera" type="localitaEsteraType">
+                    <xs:annotation>
+                        <xs:documentation>
+                            <p></p>
+                            <p><b>REGOLE / CONDIZIONI</b>
+                                <ol>
+                                    <li>In alternativa a indirizzo per tipoIndirizzo  uguale a 4 o 6</li>
+                                </ol>
+                            </p>
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:choice>
+            
+            <xs:element name="presso">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>Indica la persona o la struttura presso la quale il soggetto è temporaneamente domiciliato</p>
+                        <p><b>REGOLE / CONDIZIONI</b>
+                            <ol>
+                                <li>Per tipoIndirizzo  uguale a 5 o 6</li>
+                            </ol>
+                        </p>
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="simple:DIA1Type">
+                        <xs:minLength value="1"/>
+                        <xs:maxLength value="100"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            
+            <xs:element name="dataDecorrenzaResidenza" type="xs:date">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>Data di decorezza della residenza</p>	
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="cittadinanzaType">
+        <xs:sequence>
+            <xs:element name="descrizioneStato">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>Indica lo stato nella quale il soggetto ha la cittadinanza</p>	
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="simple:ANType">
+                        <xs:minLength value="1"/>
+                        <xs:maxLength value="120"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            
+            <xs:element name="codiceStato">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>Indica il codice dello stato corrispondente</p>
+                        <p><b>VALORI AMMESSI</b>
+                            <ol>
+                                <!-- WARNING: andrebbe chiarito quale codice usare? forse quello ISTAT? -->
+                                <li>Valori presenti nella <a href="https://italia.github.io/anpr/tab/tab_stati_esteri.html.html" target="_self">tabella 2</a></li>							
+                            </ol>
+                        </p>
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="simple:NType">                            
+                        <xs:length value="3"/>
+                    </xs:restriction>                        
+                </xs:simpleType> 
+            </xs:element>
+
+            <xs:element name="noteStato" minOccurs="0">
+                <xs:simpleType>
+                    <xs:restriction base="simple:ANType">
+                        <xs:minLength value="1"/>
+                        <xs:maxLength value="240"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            
+            <xs:element name="dataValidita" type="xs:date" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>La data a partire dalla quale il soggetto ha assunto la cittadinanza che si sta indicando </p>	
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="datiRispostaSoggettiType">
+            <xs:sequence>
+                <xs:element name="generalita" type="generalitaType"/>
+                
+                <xs:element name="attoNascita" type="attoNascitaType" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>
+                            <p>Estremi atto di nascita</p>	                            
+                            <p><b>REGOLE / CONDIZIONI</b>
+                                <ol>
+                                    <li>Solo se provenienza ANPR</li>
+                                </ol>
+                            </p>						
+                        </xs:documentation>
+                    </xs:annotation> 
+                </xs:element>
+                
+                <xs:element name="altriDati" type="altriDatiType" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>
+                            <p>Altri dati</p>	                            
+                            <p><b>REGOLE / CONDIZIONI</b>
+                                <ol>
+                                    <li>Solo se provenienza ANPR</li>
+                                </ol>
+                            </p>						
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                
+                <xs:element name="statoCivile" type="statoCivileType" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>
+                            <p>Stato civile</p>	                            
+                            <p><b>REGOLE / CONDIZIONI</b>
+                                <ol>
+                                    <li>Solo se provenienza ANPR</li>
+                                </ol>
+                            </p>						
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                
+                <xs:element name="paternita" type="generalitaType" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>
+                            <p>Informazioni sul padre</p>	                            
+                            <p><b>REGOLE / CONDIZIONI</b>
+                                <ol>
+                                    <li>Solo se soggetto minore provenienza ANPR</li>
+                                </ol>
+                            </p>						
+                        </xs:documentation>
+                    </xs:annotation>                    
+                </xs:element>
+                
+                <xs:element name="maternita" type="generalitaType" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>
+                            <p>Informazioni sulla madre</p>	                            
+                            <p><b>REGOLE / CONDIZIONI</b>
+                                <ol>
+                                    <li>Solo se soggetto minore provenienza ANPR</li>
+                                </ol>
+                            </p>						
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                
+                <xs:element name="residenza" type="residenzaType" minOccurs="0" >
+                    <xs:annotation>
+                        <xs:documentation>
+                            <p>Informazioni sulla residenza</p>	                            
+                            <p><b>REGOLE / CONDIZIONI</b>
+                                <ol>
+                                    <li>Solo se provenienza ANPR o AIRE centrale</li>
+                                </ol>
+                            </p>						
+                        </xs:documentation>
+                    </xs:annotation>  
+                </xs:element>
+                
+                <xs:element name="cittadinanza" type="cittadinanzaType" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>
+                            <p>Stato civile</p>	                            
+                            <p><b>REGOLE / CONDIZIONI</b>
+                                <ol>
+                                    <li>Solo se provenienza ANPR</li>
+                                </ol>
+                            </p>						
+                        </xs:documentation>
+                    </xs:annotation> 
+                </xs:element>
+                
+                <xs:element name="provenienzaInformazioni">
+                    <xs:annotation>
+                        <xs:documentation>
+                            <p>Indica la fonte delle informazioni</p>	
+                            <p><b>VALORI AMMESSI</b>
+                                <ol>
+                                    <li>1, da ANPR</li>
+                                    <li>2, da INA</li>
+                                    <li>3, da AT</li>
+                                    <li>4, da AIRE centrale</li>							
+                                </ol>
+                            </p>                            		
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                        <xs:restriction base="simple:NType">
+                            <xs:enumeration value="1"/>
+                            <xs:enumeration value="2"/>
+                            <xs:enumeration value="3"/>
+                            <xs:enumeration value="4"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:element>                
+            </xs:sequence>        
+    </xs:complexType>
+    
+    <!-- WARINING: Assunto per rispostaKO la descrizione di esitoKO.xlsx -->
+    <xs:complexType name="erroreType">
+        <xs:sequence>
+            <xs:element name="codiceErroreAnomalia">
+                <xs:annotation>
+                    <xs:documentation>
+                        <!-- WARNING: Mancano le descrizioni degli errori -->
+                        <p>Codice che identifica errore o anomalie</p>                        
+                    </xs:documentation>                    
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="simple:ANType">
+                        <xs:minLength value="1"/>
+                        <xs:maxLength value="6"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            
+            <xs:element name="TipoErroreAnomalia">
+                <xs:annotation>
+                    <xs:documentation>                        
+                        <p><b>VALORI AMMESSI</b>
+                            <ol>
+                                <li>E, errore bloccante</li>
+                                <li>W, anomalia non bloccante</li>							
+                            </ol>
+                        </p>                        				
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="simple:AType">
+                        <xs:enumeration value="E"/>
+                        <xs:enumeration value="W"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            
+            <xs:element name="TestoErroreAnomalia">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>Testo descrittivo errore o anomalia</p>	
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="simple:ANType">
+                        <xs:minLength value="1"/>
+                        <xs:maxLength value="240"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            
+            <xs:element name="OggettoErroreAnomalie" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>Oggetto nel quale è stato rilevato errore o anomalie</p>	
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="simple:ANType">
+                        <xs:minLength value="1"/>
+                        <xs:maxLength value="240"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            
+            <xs:element name="CampoErroreAnomalie" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>Descrizione del campo presente nell'oggetto nel quale è stato rilevato errore o anomalia</p>	
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="simple:ANType">
+                        <xs:minLength value="1"/>
+                        <xs:maxLength value="240"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            
+            <xs:element name="ValoreErroreAnomalie" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>Valore del campo nel quale è stato rilevato errore o anomalia</p>	
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="simple:ANType">
+                        <xs:minLength value="1"/>
+                        <xs:maxLength value="240"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>            
+        </xs:sequence> 
+    </xs:complexType>
+    
+    <xs:complexType name="rispostaKOType">
+        <xs:sequence>
+            <xs:element name="testataRisposta" type="testataRispostaType"/>
+            
+            <xs:element name="listaErrori" type="erroreType" maxOccurs="unbounded"/>
+        </xs:sequence>        
+    </xs:complexType>
+    
+    <xs:complexType name="cartaIdentitaType">
+        <xs:sequence>
+            <xs:element name="numero">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>Il numero della carta d’identità </p>	
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="simple:ANType">
+                        <xs:minLength value="1"/>
+                        <xs:maxLength value="20"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            
+            <xs:element name="dataRilascio" type="xs:date">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>Data di rilascio della carta d’identità</p>	                       
+                        <p><b>REGOLE / CONDIZIONI</b>
+                            <ol>
+                                <li>Verifica che la data non sia superiore a quella della richiesta</li>
+                            </ol>
+                        </p>						
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            
+            <xs:element name="dataScadenza" type="xs:date">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>Data di scadenza della carta d’identità</p>	                       
+                        <p><b>REGOLE / CONDIZIONI</b>
+                            <ol>
+                                <!-- ERROR: Il controllo sembra errato, forse si voleva dire non inferiore? -->
+                                <li>Verifica che la data non sia superiore a quella della richiesta</li>
+                            </ol>
+                        </p>						
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            
+            <!-- WARINING: a cosa serve inoltrare un valore costante? -->
+            <xs:element name="cartaceaElettronica" type="simple:NType" fixed="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>Indica carta di identità elettorinica</p>	
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            
+            <!-- WARINING: forse il campo è inultile poichè questo corrisponde al Comune indicato nella richiesta, di specie testataRichiesta.codMittente? -->
+            <xs:element name="comuneRilascio" type="comuneType"/>
+        </xs:sequence>
+    </xs:complexType>
+     
+    <!-- WARINING: a cosa serve inoltrare un valore costante? -->
+    <xs:simpleType name="operazioneRichiestaType">
+        <xs:restriction base="simple:ANType">
+            <xs:enumeration value="CIE"/>
+        </xs:restriction>
+    </xs:simpleType>
+     
+</xs:schema>

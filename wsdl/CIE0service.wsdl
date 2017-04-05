@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions 
+    targetNamespace="http://sogei.it/ANPR/CIE0AnprService"
+    xmlns:tns="http://sogei.it/ANPR/CIE0AnprService" 
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:schema="http://sogei.it/ANPR/CIE0datatypes" 
+    >
+    
+    <!-- section: TYPES -->
+    <wsdl:types>
+        <wsdl:documentation>
+            <p>I data types utilizzati dal servizio sono inclusi nel file CIE0datatypes.xsd</p>  
+        </wsdl:documentation>
+        <xsd:schema>
+            <xsd:import namespace="http://sogei.it/ANPR/CIE0datatypes" schemaLocation="CIE0datatypes.xsd" />
+        </xsd:schema>
+    </wsdl:types>
+    
+    <!-- section: MESSAGE -->
+    
+         <!-- subsection: message for operation CIE2 -->
+         <wsdl:message name="CIE2Request">
+             <wsdl:part name="request" element="schema:CIE2Request"/>
+         </wsdl:message>
+         
+         <wsdl:message name="CIE2Response">
+             <wsdl:part name="respose" element="schema:CIE2Response"/>
+         </wsdl:message>
+    
+        <!-- subsection: message for operation CIE8 -->
+        <wsdl:message name="CIE8Request">
+            <wsdl:part name="request" element="schema:CIE8Request"/>
+        </wsdl:message>
+        
+        <wsdl:message name="CIE8Response">
+            <wsdl:part name="respose" element="schema:CIE8Response"/>
+        </wsdl:message>
+    
+     <!-- subsection: message for operation CIE7 -->
+        <wsdl:message name="CIE7Request">
+            <wsdl:part name="request" element="schema:CIE7Request"/>
+        </wsdl:message>
+        
+        <wsdl:message name="CIE7Response">
+            <wsdl:part name="respose" element="schema:CIE7Response"/>
+        </wsdl:message>
+    
+    <!--  section: PORTTYPE -->
+    <wsdl:portType name="CIE0AnprPortType">
+        <wsdl:documentation>
+           <p>Definizione dei punti di connessione verso il web services attraverso i messaggi di request e responde scambiati dalle singole operation</p>  
+        </wsdl:documentation>
+        
+        <wsdl:operation name="interrogazioneDatiAnagrafici">
+            <wsdl:documentation>
+                <p>Consente di ricercare i dati della persona che ha richiesto la carta di identità</p>
+                <p>La ricerca è effettuato a partire dal <b>codice fiscale</b></p>
+                <p>Da ricordare:</p>
+                <ul>
+                    <li>Si DEVE indicare il <b>comune di residenza</b></li>
+                    <li>Si DEVE indicare il <b>comune di residenza</b> o il <b>comune di iscrizione AIRE</b></li>
+                    <li>Si PUO indicare che la <b>persona è iscritta all’AIRE</b></li>
+                </ul> 
+                <p>L'operazione di interogazione è realizzata</p>
+                <ul>
+                    <li>per i comuni subentrati:
+                        <ul>
+                            <li>su ANPR</li>
+                        </ul>
+                    </li>
+                    <li>per i comuni non subentrati:
+                        <ul>
+                            <li>se è indicato che la persona è iscritta all’AIRE, su AIRE centrale</li>
+                            <li>se non è indicato che la persona è iscritta all’AIRE, su INA centrale e se non presente su AT</li>                        
+                        </ul>
+                    </li>
+                </ul>
+                <p>Risposte in assenza di errori:</p>
+                <ul>
+                    <li>in ogni caso: 
+                        <ul>
+                            <li>generalità anagrafiche complete</li>
+                            <li>sesso, data e luogo di nascita</li>
+                            <li>fonte dei dati (ANPR, INA, AIRE centrale, AT)</li>                        
+                        </ul>    
+                    </li>
+                    <li>se la ricerca è realizzata su ANPR:
+                        <ul>
+                            <li>dati completi di residenza</li>
+                            <li>dati dei genitori il soggetto riferito è un minore</li>
+                        </ul>
+                    </li>
+                    <li>se la ricerca è realizzata su AIRE centrale:
+                        <ul>
+                            <li>dati completi di residenza</li>
+                        </ul>
+                    </li>
+                    <li>se la ricerca è realizzata su INA:
+                        <ul>
+                            <li>Comune di residenza</li>
+                        </ul>
+                    </li>
+                </ul>  
+            </wsdl:documentation>
+            <wsdl:input   message="tns:CIE2Request"/>    
+            <wsdl:output  message="tns:CIE2Response"/>
+        </wsdl:operation>
+        
+        <wsdl:operation name="comunicazioneEmissione">
+            <wsdl:documentation>
+                <p>Consente di comunicare i dati relativi alla CIE emessa</p>
+                <p><b>Da valutare se acquisire i dati della carta emessa anche per i soggetti residenti in comuni non subentrati</b></p>
+                <p>I dati da specificare nella richiesta di aggiornamento sono i seguenti:</p>
+                <ul>
+                    <li>codice fiscale</li>
+                    <li>identificativo soggetto attribuito da ANPR (alternativo al codice fiscale e solo per i comuni subentrati);</li>
+                    <li>cognome o indicatore di assenza cognome (obbligatorio)</li>
+                    <li>nome o indicatore di assenza nome (obbligatorio)</li>
+                    <li>data nascita, luogo di nascita, sesso (obbligatorio)</li>
+                    <li>seriale della carta di identità elettronica (numero unico nazionale, obbligatorio);</li>
+                    <li>data di emissione della carta di identità elettronica (obbligatorio)</li>
+                    <li>data di scadenza della carta di idnetità elettronica (obbligatorio).</li>
+                </ul>
+                <p>In assenza di errori, ANPR conferma l’avvenuto aggiornamento</p>
+            </wsdl:documentation>
+            <wsdl:input   message="tns:CIE8Request"/>    
+            <wsdl:output  message="tns:CIE8Response"/>
+        </wsdl:operation>
+    
+        <wsdl:operation name="comunicazioneAnnullamento">
+            <wsdl:documentation>
+                <p>Si utilizza questa operazione per comunicare l’avvenuto annullamento di una CIE in precedenza emessa</p>
+                <p>L’operazione di annullamento viene avviata automaticamente dal CIEOnline a seguito di un’operazione di revoca (o interdizione) di una CIE. L’interdizione può essere:</p>
+                <ul>
+                    <li>richiesta presso il Comune, nel qual caso viene effettuata ad opera di un ufficiale di anagrafe. Se il motivo è lo smarrimento o il furto del documento, il cittadino deve fornire copia della denuncia</li>
+                    <li>richiesta al servizio di assistenza CIE, nel qual caso viene effettuata dal Ministero dell’Interno. Se il motivo è lo smarrimento o il furto del documento, il cittadino deve fornire copia della denuncia</li>            
+                </ul>
+                <p>Limitatamente ai comuni subentrati, a fronte della comunicazione, si provvede all’aggiornamento della scheda individuale</p>
+                <p>I dati da specificare nella richiesta di aggiornamento sono i seguenti:</p>
+                <ul>
+                    <li>codice fiscale</li>
+                    <li>identificativo soggetto attribuito da ANPR (alternativo al codice fiscale e solo per i comuni subentrati)</li>
+                    <li>cognome o indicatore di assenza cognome (obbligatorio)</li>
+                    <li>nome o indicatore di assenza nome (obbligatorio)</li>
+                    <li>data nascita, luogo di nascita, sesso (obbligatorio)</li>
+                    <li>seriale della carta di identità elettronica (numero unico nazionale, obbligatorio);</li>            
+                </ul>
+                <p>In assenza di errori, ANPR conferma l’avvenuto aggiornamento</p>  
+            </wsdl:documentation>
+            <wsdl:input message="tns:CIE7Request"/>
+            <wsdl:output message="tns:CIE7Response"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    
+    <!-- section: BINDING -->
+    <wsdl:binding name="CIE0AnprBinding" type="tns:CIE0AnprPortType">
+        <wsdl:documentation>
+            <p>Il servizio implementa il binding su HTTP e lo stile di comunicazione adottato è <b>document</b></p>
+        </wsdl:documentation>
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        
+        <wsdl:operation name="interrogazioneDatiAnagrafici">
+            <wsdl:documentation>
+                <p>Consente di ricercare i dati della persona che ha richiesto la carta di identità</p>
+                <p>Il modello di serializzazione utilizzato per i messaggi (input e output) è <b>literal</b></p>
+            </wsdl:documentation>
+            <soap:operation soapAction="http://sogei.it/ANPR/CIE0AnprService/interrogazioneDatiAnagrafici"/>      
+            <wsdl:input>        
+                <soap:body use="literal"/>      
+            </wsdl:input>      
+            <wsdl:output>        
+                <soap:body use="literal"/>      
+            </wsdl:output>   
+        </wsdl:operation> 
+        
+        <wsdl:operation name="comunicazioneEmissione">
+            <wsdl:documentation>
+                <p>Consente di comunicare ad ANPR l'emissione di una CIE</p>
+                <p>Il modello di serializzazione utilizzato per i messaggi (input e output) è <b>literal</b></p>
+            </wsdl:documentation>
+            <soap:operation soapAction="http://sogei.it/ANPR/CIE0AnprService/comunicazioneEmissione"/>      
+            <wsdl:input>        
+                <soap:body use="literal"/>      
+            </wsdl:input>      
+            <wsdl:output>        
+                <soap:body use="literal"/>      
+            </wsdl:output>   
+        </wsdl:operation>  
+        
+        <wsdl:operation name="comunicazioneAnnullamento">
+            <wsdl:documentation>
+                <p>Consente di comunicare ad ANPR l'annullamento di una CIE</p>
+                <p>Il modello di serializzazione utilizzato per i messaggi (input e output) è <b>literal</b></p>
+            </wsdl:documentation>
+            <soap:operation soapAction="http://sogei.it/ANPR/CIE0AnprService/comunicazioneAnnullamento"/>      
+            <wsdl:input>        
+                <soap:body use="literal"/>      
+            </wsdl:input>      
+            <wsdl:output>        
+                <soap:body use="literal"/>      
+            </wsdl:output>   
+        </wsdl:operation>
+        
+    </wsdl:binding>
+    
+    <!-- section: SERVICE -->
+    <wsdl:service name="AnprServiceCIEO">
+        <wsdl:documentation>
+            <p>Il presente servizio assicura le operation per l'integrazione dei sistemi ANPR e CIEOnline</p>
+            <p>Nel dettaglio sono implementate le operazioni:</p>
+            <ul>
+                <li>CIE2 - interrogazioneDatiAnagrafici, consente di ottenere i dati di un cittadino</li>
+                <li>CIE8 - comunicazioneEmissione, consente di comunicare i dati della CIE emessa</li>
+                <li>CIE7 - comunicazioneAnnullamento, consente di comunciare l’annullamento di una CIE</li>
+            </ul>
+        </wsdl:documentation>
+        <wsdl:port name="AnprServicePortCIEO" binding="tns:CIE0AnprBinding">
+            <soap:address location="http://sogei.it/ANPR/AnprServicePortCIEO"/> 
+        </wsdl:port>
+    </wsdl:service>
+    
+</wsdl:definitions>
