@@ -11,7 +11,7 @@
     
     <xs:complexType name="codiceFiscaleAllType">
         <xs:sequence>
-            <xs:element name="codFiscale">
+            <xs:element name="codFiscale" type="simple:CodiceFiscaleType">
                 <xs:annotation>
                     <xs:documentation>
                         <p>Codice fiscale del soggetto</p>	
@@ -30,6 +30,12 @@
                         </p>                        			
                     </xs:documentation>
                 </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="simple:NType">
+                        <xs:minLength value="1"/>
+                        <xs:maxLength value="2"/>
+                    </xs:restriction>
+                </xs:simpleType>
             </xs:element>
             
             <xs:element name="dataAttribuzioneValidità" type="xs:date">
@@ -44,6 +50,10 @@
     
     <xs:complexType name="comuneType">
             <xs:sequence>
+                <!-- WARNING: assumendo l'utilizzo della tabella 3 di codifica dei comuni sarebbe possibile 
+                              individuare il Comune con la sola chiava primaria della tabella stessa
+                              eliminando i 3 element successivi?
+                -->
                 <xs:element name="nomeComune">
                     <xs:annotation>
                         <xs:documentation>
@@ -74,9 +84,19 @@
                             </p>						
                         </xs:documentation>
                     </xs:annotation>
+                    <!-- CHANGED: semplificata la tipizzazione
+                    
                     <xs:simpleType>
-                        <xs:restriction base="simple:ANType">                            
+                        <xs:restriction base="simple:ANType">
                             <xs:length value="6"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                    
+                    -->
+                    
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:pattern value="[0-9]{6}"/>
                         </xs:restriction>
                     </xs:simpleType>                      
                 </xs:element>
@@ -132,6 +152,11 @@
                     </xs:simpleType>                    
                 </xs:element>
                 
+                <!-- WARNING: assumendo l'utilizzo della tabella 2 di codifica dei comuni sarebbe possibile 
+                              individuare il Comune con la sola chiava primaria della tabella stessa
+                              eliminando i 3 element successivi?
+                -->
+                
                 <xs:element name="descrizioneStato">
                     <xs:annotation>
                         <xs:documentation>
@@ -145,7 +170,7 @@
                         </xs:restriction>                        
                     </xs:simpleType>                     
                 </xs:element>
-                
+                                                
                 <xs:element name="codiceStato" minOccurs="0">
                     <xs:annotation>
                         <xs:documentation>
@@ -209,38 +234,35 @@
                 </xs:simpleType>
             </xs:element>
             
-            <xs:element name="comune" type="comuneType" minOccurs="0">
-                <xs:annotation>
-                    <xs:documentation>
-                        <p>Comune dell'evento</p>
-                        <p><b>REGOLE / CONDIZIONI</b>
-                            <ol>
-                                <li>Deve necessariamente essere presente almeno uno tra Comune e Località o LuogoEccezionale</li>
-                            </ol>
-                        </p>
-                    </xs:documentation>
-                </xs:annotation>                
-            </xs:element>
+            <!-- CHANGED: utilizzando il tab choice non si mutano le possibilità previsti ma si assicura la presenza di almeno uno tra i due element 
+                          direttamente nella validazione del messaggio ricevuto e non ad azioni applicative sucessive -->
+            <xs:choice>
+                <xs:element name="comune" type="comuneType">
+                    <xs:annotation>
+                        <xs:documentation>
+                            <p>Comune dell'evento</p>                            
+                        </xs:documentation>
+                    </xs:annotation>                
+                </xs:element>
+                
+                <xs:element name="localita" type="localitaType">
+                    <xs:annotation>
+                        <xs:documentation>
+                            <p>La località non italiana dell'evento</p>                            
+                        </xs:documentation>
+                    </xs:annotation>                
+                </xs:element>   
+            </xs:choice>
             
-            <xs:element name="localita" type="localitaType" minOccurs="0">
-                <xs:annotation>
-                    <xs:documentation>
-                        <p>La località non italiana dell'evento</p>
-                        <p><b>REGOLE / CONDIZIONI</b>
-                            <ol>
-                                <li>Deve necessariamente essere presente almeno uno tra Comune e Località o LuogoEccezionale</li>
-                            </ol>
-                        </p>
-                    </xs:documentation>
-                </xs:annotation>                
-            </xs:element>
         </xs:sequence>
         
     </xs:complexType>
     
     <xs:complexType name="testataRichiestaType">
             <xs:sequence>                
-                <xs:element name="idOperazioneComune">
+                <!-- CHANGED: Non si capisce l'esigenza di tale info nell scambio ANPR-CIE
+                    
+                    <xs:element name="idOperazioneComune">
                     <xs:annotation>
                         <xs:documentation>
                             <p>Identificativo univoco attribuito all'operazione</p>	                            
@@ -256,11 +278,11 @@
                     <xs:simpleType>
                         <xs:restriction base="simple:ANType">
                             <xs:minLength value="1"/>
-                            <!-- WARNING: Siamo sicuri della quantità di operazioni disponibili? -->                            
+                            <!-\- WARNING: Siamo sicuri della quantità di operazioni disponibili? -\->                            
                             <xs:maxLength value="30"/>
                         </xs:restriction>
                     </xs:simpleType>
-                </xs:element>
+                </xs:element>-->
                 
                 <xs:element name="codMittente">
                     <xs:annotation>
@@ -278,14 +300,25 @@
                             </p>						
                         </xs:documentation>
                     </xs:annotation>
+                    <!-- CHANGED: semplificata la tipizzazione
+                    
                     <xs:simpleType>
                         <xs:restriction base="simple:ANType">
                             <xs:length value="6"/>
                         </xs:restriction>
+                    </xs:simpleType>
+                    
+                    -->
+                    
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:pattern value="[0-9]{6}"/>
+                        </xs:restriction>
                     </xs:simpleType>                    
                 </xs:element>
                 
-                <!-- WARINING: a cosa serve inoltrare un valore costante? -->
+                <!-- CHANGED: a cosa serve inoltrare un valore costante? 
+                               
                 <xs:element name="codDestinatario" fixed="ANPR00">
                     <xs:annotation>
                         <xs:documentation>
@@ -304,8 +337,10 @@
                         </xs:restriction>
                     </xs:simpleType>
                 </xs:element>
+                 -->
                 
-                <!-- WARINING: a cosa serve indicare l'operazione richiesta? Non basta l'operation chiamata? -->
+                <!-- CHANGED: a cosa serve indicare l'operazione richiesta? Non basta l'operation chiamata?
+                                       
                 <xs:element name="operazioneRichiesta">
                     <xs:annotation>
                         <xs:documentation>
@@ -327,8 +362,10 @@
                         </xs:restriction>
                     </xs:simpleType>
                 </xs:element>
+                -->
                 
-                <!-- WARINING: a cosa serve la data e ora dell'operazione richiesta? Non basta il timestamp della ricezione della richiesta?-->
+                <!-- CHANGED: a cosa serve la data e ora dell'operazione richiesta? Non basta il timestamp della ricezione della richiesta?
+                    
                 <xs:element name="dataOraRichiesta" type="xs:dateTime"  >
                     <xs:annotation>
                         <xs:documentation>
@@ -336,8 +373,10 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:element>
+                -->
                 
-                <!-- WARINING: a cosa serve inoltrare un valore costante? -->
+                <!-- CHANGED: a cosa serve inoltrare un valore costante? 
+                
                 <xs:element name="tipoOperazione" fixed="C">
                     <xs:annotation>
                         <xs:documentation>
@@ -350,8 +389,10 @@
                         </xs:restriction>
                     </xs:simpleType>
                 </xs:element>
+                -->
                 
-                <!-- WARINING: nella descrizione del file excel testataRichiesta.xlsx è indicato "non utilizzato", quindi bisogna eliminarlo? -->
+                <!-- CHANGED: nella descrizione del file excel testataRichiesta.xlsx è indicato "non utilizzato", quindi bisogna eliminarlo?
+                    
                 <xs:element name="protocolloComune" minOccurs="0">
                     <xs:simpleType>
                         <xs:restriction base="simple:CharType">
@@ -360,11 +401,15 @@
                         </xs:restriction>
                     </xs:simpleType>
                 </xs:element>
+                -->
                 
-                <!-- WARINING: nella descrizione del file excel testataRichiesta.xlsx è indicato "non utilizzato", quindi bisogna eliminarlo? -->
+                <!-- CHANGED: nella descrizione del file excel testataRichiesta.xlsx è indicato "non utilizzato", quindi bisogna eliminarlo? 
+                               
                 <xs:element name="dataProtocolloComune" type="xs:date" minOccurs="0"/>
+                -->
                 
-                <!-- WARINING: a cosa serve l'indicazione dell'ambiente? I serizi dei vari ambienti non sono esposti su endpoint differenti?-->
+                <!-- CHANGED: a cosa serve l'indicazione dell'ambiente? I serizi dei vari ambienti non sono esposti su endpoint differenti?
+                    
                 <xs:element name="tipoInvio"  >
                     <xs:annotation>
                         <xs:documentation>
@@ -391,11 +436,15 @@
                         </xs:restriction>
                     </xs:simpleType>
                 </xs:element>
+                -->
                 
-                <!-- WARINING: nella descrizione del file excel testataRichiesta.xlsx è indicato "non utilizzato", quindi bisogna eliminarlo? -->
+                <!-- CHANGED: nella descrizione del file excel testataRichiesta.xlsx è indicato "non utilizzato", quindi bisogna eliminarlo?
+                    
                 <xs:element name="dataDecorrenza" type="xs:date" minOccurs="0"/>
+                -->
                 
-                <!-- WARINING: a cosa serve? -->
+                <!-- CHANGED: a cosa serve? 
+                                        
                 <xs:element name="nomeApplicativo" minOccurs="0">
                     <xs:annotation>
                         <xs:documentation>
@@ -409,8 +458,10 @@
                         </xs:restriction>
                     </xs:simpleType>
                 </xs:element>
+                -->
                 
-                <!-- WARINING: a cosa serve? -->
+                <!-- CHANGED: a cosa serve? 
+                    
                 <xs:element name="versioneApplicativo" minOccurs="0">
                     <xs:annotation>
                         <xs:documentation>
@@ -424,8 +475,10 @@
                         </xs:restriction>
                     </xs:simpleType>                    
                 </xs:element>
+                -->
                 
-                <!-- WARINING: a cosa serve inoltrare un valore costante? -->
+                <!-- CHANGED: a cosa serve inoltrare un valore costante? 
+                
                 <xs:element name="fornitoreApplicativo" minOccurs="0" fixed="IPZS">
                     <xs:annotation>
                         <xs:documentation>
@@ -439,7 +492,10 @@
                         </xs:restriction>
                     </xs:simpleType>                    
                 </xs:element>
-                                
+                -->
+                
+                <!-- CHANGED: per il versioning del servizio si utilizza url pattern 
+                    
                 <xs:element name="versioneDelServizio" minOccurs="0">
                     <xs:annotation>
                         <xs:documentation>
@@ -453,11 +509,12 @@
                         </xs:restriction>
                     </xs:simpleType>
                 </xs:element>
-                
+                -->
                 
             </xs:sequence>                 
     </xs:complexType>
     
+    <!-- CHANGED: non più utilizzato 
     <xs:complexType name="datiControlloType">
         <xs:sequence>
             <xs:element name="comuneResidenza">
@@ -466,7 +523,7 @@
                         <p>Comune ne quale risiede il soggetto o nel quale è iscritto all'AIRE</p>
                         <p><b>VALORI AMMESSI</b>
                             <ol>
-                                <!-- WARNING: forse è sfugito il vincolo con la tabella 3 dei codici comune, come da file CIE2-Integrazione.xlsx -->
+                                WARNING: forse è sfugito il vincolo con la tabella 3 dei codici comune, come da file CIE2-Integrazione.xlsx
                                 <li>Codice ISTAT</li>							
                             </ol>
                         </p>
@@ -479,7 +536,7 @@
                 </xs:simpleType>
             </xs:element>
             
-            <!-- WARNING: ho tipizzato a boolean in considerazione della semantica dell'element, originariamente era un numero di 1 cifra come da file excel CIE2-Integrazione.xlsx -->
+            WARNING: ho tipizzato a boolean in considerazione della semantica dell'element, originariamente era un numero di 1 cifra come da file excel CIE2-Integrazione.xlsx
             <xs:element name="soggettoAIRE" type="xs:boolean" minOccurs="0">
                 <xs:annotation>
                     <xs:documentation>
@@ -494,6 +551,7 @@
             </xs:element>
         </xs:sequence>
     </xs:complexType>
+    -->
     
     <xs:complexType name="generalitaRichiestaType">
         <xs:sequence>
@@ -505,6 +563,10 @@
                 </xs:annotation>
             </xs:element>
             
+            <!--
+                
+                CHANGED: Element in inuti in base alle ultime modifiche del documento MI-42-AN-01SpecCieOnLine è previsto che la ricerca 5.1 INTERROGAZIONE DATI ANAGRAFICI
+                
             <xs:element name="cognome"  minOccurs="0">
                 <xs:annotation>
                     <xs:documentation>
@@ -519,7 +581,7 @@
                 </xs:simpleType>
             </xs:element>
             
-            <!-- WARNING: ho tipizzato a boolean in considerazione della semantica dell'element, originariamente era un numero di 1 cifra come da file excel generalitaperricerca.xlsx-->
+            <!-\- WARNING: ho tipizzato a boolean in considerazione della semantica dell'element, originariamente era un numero di 1 cifra come da file excel generalitaperricerca.xlsx-\->
             <xs:element name="senzaCognome" type="xs:boolean" minOccurs="0">
                 <xs:annotation>
                     <xs:documentation>
@@ -547,7 +609,7 @@
                 </xs:simpleType>
             </xs:element>
             
-            <!-- WARNING: ho tipizzato a boolean in considerazione della semantica dell'element, originariamente era un numero di 1 cifra come da file excel generalitaperricerca.xlsx-->
+            <!-\- WARNING: ho tipizzato a boolean in considerazione della semantica dell'element, originariamente era un numero di 1 cifra come da file excel generalitaperricerca.xlsx-\->
             <xs:element name="senzaNome" type="xs:boolean" minOccurs="0">
                 <xs:annotation>
                     <xs:documentation>
@@ -591,7 +653,7 @@
                 </xs:annotation>
             </xs:element>
             
-            <!-- WARNING: ho tipizzato a boolean in considerazione della semantica dell'element, originariamente era un numero di 1 cifra come da file excel generalitaperricerca.xlsx-->
+            <!-\- WARNING: ho tipizzato a boolean in considerazione della semantica dell'element, originariamente era un numero di 1 cifra come da file excel generalitaperricerca.xlsx-\->
             <xs:element name="senzaGiorno" type="xs:boolean" minOccurs="0">
                 <xs:annotation>
                     <xs:documentation>
@@ -605,7 +667,7 @@
                 </xs:annotation>
             </xs:element>
             
-            <!-- WARNING: ho tipizzato a boolean in considerazione della semantica dell'element, originariamente era un numero di 1 cifra come da file excel generalitaperricerca.xlsx-->
+            <!-\- WARNING: ho tipizzato a boolean in considerazione della semantica dell'element, originariamente era un numero di 1 cifra come da file excel generalitaperricerca.xlsx-\->
             <xs:element name="senzaGiornoMese" type="xs:boolean" minOccurs="0">
                 <xs:annotation>
                     <xs:documentation>
@@ -639,12 +701,13 @@
                         <xs:maxLength value="15"/>
                     </xs:restriction>
                 </xs:simpleType>
-            </xs:element>
+            </xs:element>-->
         </xs:sequence>
     </xs:complexType>
     
     <xs:complexType name="testataRispostaType">
-        <xs:sequence>                
+        <xs:sequence> 
+            <!-- CHANGED: 
             <xs:element name="idOperazioneComune">
                 <xs:annotation>
                     <xs:documentation>
@@ -659,7 +722,7 @@
                 </xs:simpleType>
             </xs:element>
             
-            <!-- WARINING: a cosa serve inoltrare un valore costante? -->
+            WARINING: a cosa serve inoltrare un valore costante? 
             <xs:element name="codMittente" fixed="ANPR00">
                 <xs:annotation>
                     <xs:documentation>                        	
@@ -691,7 +754,7 @@
                 </xs:simpleType>                    
             </xs:element>
             
-            <!-- WARINING: a cosa serve indicare l'operazione richiesta? Non basta l'operation chiamata? Se necessario sarebbe possibile limitare i valori cosi come in richiesta? -->
+            WARINING: a cosa serve indicare l'operazione richiesta? Non basta l'operation chiamata? Se necessario sarebbe possibile limitare i valori cosi come in richiesta?
             <xs:element name="operazioneRichiesta">
                 <xs:annotation>
                     <xs:documentation>
@@ -700,7 +763,7 @@
                 </xs:annotation>                
             </xs:element>
             
-            <!-- WARINING: a cosa serve la data e ora dell'operazione richiesta? Non basta l'idOperazioneComune? -->
+            WARINING: a cosa serve la data e ora dell'operazione richiesta?
             <xs:element name="dataOraRichiesta" type="xs:dateTime"  >
                 <xs:annotation>
                     <xs:documentation>
@@ -709,7 +772,7 @@
                 </xs:annotation>
             </xs:element>
             
-            <!-- WARINING: nella descrizione del file excel testataRichiesta.xlsx è indicato "non utilizzato", quindi bisogna eliminarlo? -->
+            WARINING: nella descrizione del file excel testataRichiesta.xlsx è indicato "non utilizzato", quindi bisogna eliminarlo? 
             <xs:element name="protocolloComune" minOccurs="0">
                 <xs:simpleType>
                     <xs:restriction base="simple:CharType">
@@ -719,10 +782,10 @@
                 </xs:simpleType>
             </xs:element>
             
-            <!-- WARINING: nella descrizione del file excel testataRichiesta.xlsx è indicato "non utilizzato", quindi bisogna eliminarlo? -->
+            WARINING: nella descrizione del file excel testataRichiesta.xlsx è indicato "non utilizzato", quindi bisogna eliminarlo? 
             <xs:element name="dataProtocolloComune" type="xs:date" minOccurs="0"/>
             
-            <!-- WARINING: nella descrizione del file excel testataRichiesta.xlsx è indicato "non utilizzato", quindi bisogna eliminarlo? -->
+            WARINING: nella descrizione del file excel testataRichiesta.xlsx è indicato "non utilizzato", quindi bisogna eliminarlo? 
             <xs:element name="dataDecorrenza" type="xs:date" minOccurs="0"/>
             
             <xs:element name="idOperazioneANPR">
@@ -733,13 +796,12 @@
                 </xs:annotation>
                 <xs:simpleType>
                     <xs:restriction base="simple:NType">
-                        <xs:minLength value="1"/>
-                        <!-- WARNING: Siamo sicuri della quantità di operazioni disponibili? -->
+                        <xs:minLength value="1"/>                        
                         <xs:maxLength value="30"/>
                     </xs:restriction>
                 </xs:simpleType>
             </xs:element>
-            
+            --> 
             <xs:element name="esitoOperazione">
                 <xs:annotation>
                     <xs:documentation>
@@ -763,6 +825,8 @@
     
     <xs:complexType name="generalitaType">
         <xs:sequence>
+            <!-- CHANGED: idSchedaSoggettoANPR rappresenta la chiave primaria per ANPR per i soggetti quindi la sola conoscenza di questa permette di individuare il soggetto per cui è stata emessa la CIE
+            
             <xs:element name="codiceFiscale" type="codiceFiscaleAllType">
                 <xs:annotation>
                     <xs:documentation>
@@ -770,7 +834,7 @@
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
-            
+              
             <xs:element name="cognome"  minOccurs="0">
                 <xs:annotation>
                     <xs:documentation>
@@ -785,7 +849,7 @@
                 </xs:simpleType>
             </xs:element>
             
-            <!-- WARNING: a cosa serve, non basta cognome = NULL? ho tipizzato a boolean in considerazione della semantica dell'element, originariamente era un numero di 1 cifra come da file excel generalita.xlsx-->
+            WARNING: a cosa serve, non basta cognome = NULL? ho tipizzato a boolean in considerazione della semantica dell'element, originariamente era un numero di 1 cifra come da file excel generalita.xlsx
             <xs:element name="senzaCognome" type="xs:boolean" minOccurs="0">
                 <xs:annotation>
                     <xs:documentation>
@@ -813,7 +877,7 @@
                 </xs:simpleType>
             </xs:element>
             
-            <!-- WARNING: a cosa serve, non basta nome = NULL?ho tipizzato a boolean in considerazione della semantica dell'element, originariamente era un numero di 1 cifra come da file excel generalita.xlsx-->
+            WARNING: a cosa serve, non basta nome = NULL?ho tipizzato a boolean in considerazione della semantica dell'element, originariamente era un numero di 1 cifra come da file excel generalita.xlsx
             <xs:element name="senzaNome" type="xs:boolean" minOccurs="0">
                 <xs:annotation>
                     <xs:documentation>
@@ -857,7 +921,7 @@
                 </xs:annotation>
             </xs:element>
             
-            <!-- WARNING: ho tipizzato a boolean in considerazione della semantica dell'element, originariamente era un numero di 1 cifra come da file excel generalita.xlsx-->
+            WARNING: ho tipizzato a boolean in considerazione della semantica dell'element, originariamente era un numero di 1 cifra come da file excel generalita.xlsx
             <xs:element name="senzaGiorno" type="xs:boolean" minOccurs="0">
                 <xs:annotation>
                     <xs:documentation>
@@ -871,7 +935,7 @@
                 </xs:annotation>
             </xs:element>
             
-            <!-- WARNING: ho tipizzato a boolean in considerazione della semantica dell'element, originariamente era un numero di 1 cifra come da file excel generalita.xlsx-->
+            WARNING: ho tipizzato a boolean in considerazione della semantica dell'element, originariamente era un numero di 1 cifra come da file excel generalita.xlsx
             <xs:element name="senzaGiornoMese" type="xs:boolean" minOccurs="0">
                 <xs:annotation>
                     <xs:documentation>
@@ -893,7 +957,7 @@
                 </xs:annotation>
             </xs:element>
             
-            <!-- WARNING: ho tipizzato a boolean in considerazione della semantica dell'element, originariamente era un numero di 1 cifra come da file excel generalita.xlsx-->
+            WARNING: ho tipizzato a boolean in considerazione della semantica dell'element, originariamente era un numero di 1 cifra come da file excel generalita.xlsx
             <xs:element name="soggettoAIRE" type="xs:boolean">
                 <xs:annotation>
                     <xs:documentation>
@@ -906,7 +970,8 @@
                     </xs:documentation>
                 </xs:annotation>                
             </xs:element>
-            
+             -->
+          
             <xs:element name="idSchedaSoggettoANPR" minOccurs="0">
                 <xs:annotation>
                     <xs:documentation>
@@ -920,6 +985,7 @@
                     </xs:restriction>
                 </xs:simpleType>
             </xs:element>
+            
         </xs:sequence>
         
     </xs:complexType>
@@ -928,8 +994,7 @@
         <xs:sequence>
             <xs:element name="comuneRegistrazione" type="comuneType">
                 <xs:annotation>
-                    <xs:documentation>
-                        <!-- WARNING: basta il comune di trascrizione per CIE? -->
+                    <xs:documentation>                        
                         <p>Indica il comune di formazione/trascrizione</p>	
                     </xs:documentation>
                 </xs:annotation>
@@ -1043,6 +1108,7 @@
         </xs:sequence>    
     </xs:complexType>
     
+    <!-- CHANGED: non più usato
     <xs:complexType name="altriDatiType">
         <xs:sequence>
             <xs:element name="posizioneProfessionale">
@@ -1082,7 +1148,7 @@
                     </xs:restriction>
                 </xs:simpleType>
             </xs:element>
-            
+           
             <xs:element name="titoloStudio">
                 <xs:annotation>
                     <xs:documentation>
@@ -1103,6 +1169,7 @@
             </xs:element>            
         </xs:sequence>
     </xs:complexType>
+     -->
     
     <xs:complexType name="statoCivileType">
         <xs:sequence>
@@ -1212,10 +1279,11 @@
                         </xs:restriction>
                     </xs:simpleType>
                 </xs:element>
+               
             </xs:choice>
-            
-            <!-- WARNING: Si è implementato una choice tra codSpecie e descrizioneSpecie, potrebbe essere eliminato? -->
-            <!-- WARNING: ho tipizzato a boolean in considerazione della semantica dell'element, originariamente era un numero di 1 cifra come da file excel tomponimo.xlsx -->
+                        
+            <!-- CHANGED: risulta inutile perche l'informazione del flag è determinata da quale attributo è stato popolato (o codSpecie o descrizioneSpecie  
+            WARNING: ho tipizzato a boolean in considerazione della semantica dell'element, originariamente era un numero di 1 cifra come da file excel tomponimo.xlsx 
             <xs:element name="specieFonte" type="xs:boolean" minOccurs="0">
                 <xs:annotation>
                     <xs:documentation>
@@ -1228,6 +1296,7 @@
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
+            -->
             
             <xs:choice>
                 <xs:element name="codToponimo" minOccurs="0">
@@ -1264,21 +1333,22 @@
                 </xs:element>
             </xs:choice>
             
-            <!-- WARNING: Si è implementato una choice tra codSpecie e descrizioneSpecie, potrebbe essere eliminato? -->
-            <!-- WARNING: ho tipizzato a boolean in considerazione della semantica dell'element, originariamente era un numero di 1 cifra come da file excel tomponimo.xlsx -->
+            <!-- CHANGED: risulta inutile perche l'informazione del flag è determinata da quale attributo è stato popolato (o codToponimo o denominazioneToponimo            
+            WARNING: ho tipizzato a boolean in considerazione della semantica dell'element, originariamente era un numero di 1 cifra come da file excel tomponimo.xlsx 
             <xs:element name="toponimoFonte" type="xs:boolean" minOccurs="0">
                 <xs:annotation>
                     <xs:documentation>
                         <p>Indica la provenienza della DUG</p>	                       
                         <p><b>REGOLE / CONDIZIONI</b>
                             <ol>
-                                <!-- WARNING: Di quale tabella si tratta? -->
+                                WARNING: Di quale tabella si tratta?
                                 <li>Se TRUE allora è stato popolato codToponimo dalla tabella ISTAT, altrimenti popolato descrizioneSpecie come da tabella Comunale</li>
                             </ol>
                         </p>						
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
+            -->
         </xs:sequence>        
     </xs:complexType>
     
@@ -1841,6 +1911,11 @@
     
     <xs:complexType name="cittadinanzaType">
         <xs:sequence>
+            <!-- WARNING: assumendo l'utilizzo della tabella 2 di codifica degli stati esteri sarebbe possibile 
+                              individuare il Comune con la sola chiava primaria della tabella stessa
+                              eliminando l'element successivo?
+                -->
+            
             <xs:element name="descrizioneStato">
                 <xs:annotation>
                     <xs:documentation>
@@ -1910,6 +1985,7 @@
                     </xs:annotation> 
                 </xs:element>
                 
+                <!-- CHANGED: non più usato 
                 <xs:element name="altriDati" type="altriDatiType" minOccurs="0">
                     <xs:annotation>
                         <xs:documentation>
@@ -1922,6 +1998,7 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:element>
+                -->
                 
                 <xs:element name="statoCivile" type="statoCivileType" minOccurs="0">
                     <xs:annotation>
@@ -2160,7 +2237,7 @@
                 </xs:annotation>
             </xs:element>
             
-            <!-- WARINING: a cosa serve inoltrare un valore costante? -->
+            <!-- CHANGED: a cosa serve inoltrare un valore costante? 
             <xs:element name="cartaceaElettronica" type="simple:NType" fixed="1">
                 <xs:annotation>
                     <xs:documentation>
@@ -2168,17 +2245,21 @@
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
+            -->
             
-            <!-- WARINING: forse il campo è inultile poichè questo corrisponde al Comune indicato nella richiesta, di specie testataRichiesta.codMittente? -->
+            <!-- CHANGED: forse il campo è inultile poichè questo corrisponde al Comune indicato nella richiesta, di specie testataRichiesta.codMittente? 
             <xs:element name="comuneRilascio" type="comuneType"/>
+            -->
+            
         </xs:sequence>
     </xs:complexType>
      
-    <!-- WARINING: a cosa serve inoltrare un valore costante? -->
+    <!-- CHANGED: non più utilizzato  
+    WARINING: a cosa serve inoltrare un valore costante? 
     <xs:simpleType name="operazioneRichiestaType">
         <xs:restriction base="simple:ANType">
             <xs:enumeration value="CIE"/>
         </xs:restriction>
     </xs:simpleType>
-     
+    -->
 </xs:schema>
