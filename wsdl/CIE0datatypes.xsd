@@ -23,10 +23,7 @@
                 <xs:sequence>
                     <xs:element name="testataRichiesta" type="complex:testataRichiestaType"/>
                     <xs:element name="generalita" type="complex:generalitaRichiestaType"/>
-                    <!-- CHANGED: non si capisce a cosa serva questo element
-                        
                     <xs:element name="datiControllo" type="complex:datiControlloType"/>
-                     -->
                 </xs:sequence>
             </xs:complexType>
         </xs:element>
@@ -105,6 +102,22 @@
                     <xs:element name="generalita" type="complex:generalitaType"/>
                     <xs:element name="cartaIdentita" type="complex:cartaIdentitaType"/>
                     <xs:element name="dataAnnulamento" type="xs:date"/>
+                    <!-- Necessario indicare motivazione di revoca.-->
+                    <xs:element name="motivazione" type="xs:int">
+                        <xs:annotation>
+                            <xs:documentation>1=SMARRIMENTO
+                                2=FURTO
+                                3=MANOMISSIONE
+                                4=DETERIORAMENTO
+                                5=PROVV.AUTOR.DI CARATTERE GIUDIZIARIO
+                                6=ATTI AMMINISTRATIVI
+                                10=RINNOVO PER CI IN SCADENZA (6 MESI)
+                                11=VARIAZIONI ANAGRAFICHE
+                                12=ERRORE DI EMISSIONE
+                                13=RESTITUZIONE A SEGUITO DI DECESSO
+                                14=RESTITUZIONE PER ALTRI MOTIVI</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
                 </xs:sequence>
             </xs:complexType>
         </xs:element>
@@ -120,16 +133,17 @@
             </xs:annotation>
             <xs:complexType>
                 <xs:choice>
-                    <xs:sequence>
+                    <!-- CHANGED: Allineata la struttura a quella di CIE8Response
+                    <xs:sequence>-->
                         <xs:element name="testataRisposta" type="complex:testataRispostaType"/>
                         
                         <!-- CHANGED: eliminato inoltro valore costante 
                         WARINING: a cosa serve inoltrare un valore costante? 
                         <xs:element name="operazioneRichiesta" type="complex:operazioneRichiestaType"/>
                         -->
-
+                    <!--
                         <xs:element name="cartaIdentita" type="complex:cartaIdentitaType"/>
-                    </xs:sequence>
+                   </xs:sequence>-->
                     <xs:element name="rispostaKO" type="complex:rispostaKOType"/>
                 </xs:choice>
             </xs:complexType>

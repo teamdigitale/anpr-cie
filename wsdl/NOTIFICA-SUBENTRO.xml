@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<richiesta xmlns="http://ssce.cie.ipzs.it/schemas" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ssce.cie.ipzs.it/schemas SSCE-ANPR.xsd">
+    <!-- CODICE ISTAT DEL COMUNE CHE E' SUBENTRATO -->
+    <istat_comune>999999</istat_comune>
+    <!-- OPZIONALE -->
+    <data_subentro>2016-12-31</data_subentro>
+</richiesta>

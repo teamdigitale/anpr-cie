@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified" xmlns="http://ssce.cie.ipzs.it/schemas" targetNamespace="http://ssce.cie.ipzs.it/schemas">
+
+    <xs:element name="istat_comune" type="xs:int"/>
+    <xs:element name="data_subentro" type="xs:date"/>
+    <xs:element name="richiesta">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="istat_comune"/>
+                <xs:element minOccurs="0" ref="data_subentro"/>
+            </xs:sequence>
+            <xs:attribute name="tipo">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="NOTIFICA_SUBENTRO"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="codice" type="xs:string"/>
+    <xs:element name="descrizione" type="xs:string"/>
+    <xs:element name="esito">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="codice"/>
+                <xs:element ref="descrizione"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="risposta">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="esito"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>
