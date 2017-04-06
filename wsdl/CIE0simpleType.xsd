@@ -12,35 +12,35 @@
         </xs:restriction>
     </xs:simpleType>
     
-    <!-- ERROR: da definire l'elenco dei caratteri ammessi, nel documento MI-42-AN-01SpecCieOnLine è detto "Lettere" -->    
+    <!-- IMPORTANT: da definire l'elenco dei caratteri ammessi, nel documento MI-42-AN-01SpecCieOnLine è detto "Lettere" -->    
     <xs:simpleType name="AType">
         <xs:restriction base="xs:string">
             <xs:pattern value="([A-Za-z])*" />
         </xs:restriction>
     </xs:simpleType>
     
-    <!-- ERROR: da definire l'elenco dei caratteri ammessi, nel documento MI-42-AN-01SpecCieOnLine è detto "Sono numeri" -->    
+    <!-- IMPORTANT: da definire l'elenco dei caratteri ammessi, nel documento MI-42-AN-01SpecCieOnLine è detto "Sono numeri" -->    
     <xs:simpleType name="NType">
         <xs:restriction base="xs:string">
             <xs:pattern value="([0-9])*" />
         </xs:restriction>
     </xs:simpleType>
     
-    <!-- ERROR: da definire l'elenco dei caratteri ammessi, nel documento MI-42-AN-01SpecCieOnLine è detto "Lettere e numeri " -->    
+    <!-- IMPORTANT: da definire l'elenco dei caratteri ammessi, nel documento MI-42-AN-01SpecCieOnLine è detto "Lettere e numeri " -->    
     <xs:simpleType name="ANType">
         <xs:restriction base="xs:string">
             <xs:pattern value="([A-Za-z0-9])*" />
         </xs:restriction>
     </xs:simpleType>
     
-    <!-- ERROR: da definire l'elenco dei caratteri ammessi, nel documento MI-42-AN-01SpecCieOnLine è detto "Lettere, numeri e caratteri speciali ammessi" -->
+    <!-- IMPORTANT: da definire l'elenco dei caratteri ammessi, nel documento MI-42-AN-01SpecCieOnLine è detto "Lettere, numeri e caratteri speciali ammessi" -->
     <xs:simpleType name="CharType">
         <xs:restriction base="xs:string">
             <xs:pattern value="([A-Za-z0-9_$])*" />
         </xs:restriction>
     </xs:simpleType>
     
-    <!-- ERROR: da definire l'elenco dei caratteri ammessi, nel documento MI-42-AN-01SpecCieOnLine è detto "Lettere con segno diacritico ed i caratteri apice, virgola, trattino, punto" -->
+    <!-- IMPORTANT: da definire l'elenco dei caratteri ammessi, nel documento MI-42-AN-01SpecCieOnLine è detto "Lettere con segno diacritico ed i caratteri apice, virgola, trattino, punto" -->
     <xs:simpleType name="DIA1Type">
         <xs:restriction base="xs:string">
             <xs:pattern value="([Ā-žA-Za-z0-9',-.])*" />

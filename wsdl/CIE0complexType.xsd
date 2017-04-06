@@ -1232,7 +1232,7 @@
         </xs:sequence>
     </xs:complexType>
     
-    <!-- ERROR: Si è rienterpretato il popolamento degli element DA VERIFICARE L'INTENZIONE -->
+    <!-- IMPORTANT: Si è rienterpretato il popolamento degli element DA VERIFICARE L'INTENZIONE -->
     <xs:complexType name="toponimoType">
         <xs:sequence>            
             <xs:choice>
@@ -1242,7 +1242,7 @@
                             <p>Il codice attribuito alla DUG</p>	                        
                             <p><b>REGOLE / CONDIZIONI</b>
                                 <ol>
-                                    <!-- ERROR: Manca tabella in Github -->
+                                    <!-- IMPORTANT: Manca tabella in Github -->
                                     <li>Tabella 4</li>
                                 </ol>
                             </p>						
@@ -1779,7 +1779,7 @@
                                     <p>Il Codice del Consolato di residenza</p>	
                                     <p><b>VALORI AMMESSI</b>
                                         <ol>
-                                            <!-- ERROR: la tabella non è presente su Github -->
+                                            <!-- IMPORTANT: la tabella non è presente su Github -->
                                             <li>tabella 24</li>							
                                         </ol>
                                     </p>                                    						
@@ -2229,7 +2229,7 @@
                         <p>Data di scadenza della carta d’identità</p>	                       
                         <p><b>REGOLE / CONDIZIONI</b>
                             <ol>
-                                <!-- ERROR: Il controllo sembra errato, forse si voleva dire non inferiore? -->
+                                <!-- IMPORTANT: Il controllo sembra errato, forse si voleva dire non inferiore? -->
                                 <li>Verifica che la data non sia superiore a quella della richiesta</li>
                             </ol>
                         </p>						
