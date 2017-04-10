@@ -514,10 +514,6 @@
             </xs:sequence>                 
     </xs:complexType>
     
-<<<<<<< HEAD
-=======
-    
->>>>>>> origin/revisione-antonio
     <xs:complexType name="datiControlloType">
         <xs:sequence>
             <xs:element name="comuneResidenza">
@@ -526,10 +522,7 @@
                         <p>Comune ne quale risiede il soggetto o nel quale è iscritto all'AIRE</p>
                         <p><b>VALORI AMMESSI</b>
                             <ol>
-<<<<<<< HEAD
                                 <!-- WARNING: forse è sfugito il vincolo con la tabella 3 dei codici comune, come da file CIE2-Integrazione.xlsx -->
-=======
->>>>>>> origin/revisione-antonio
                                 <li>Codice ISTAT</li>							
                             </ol>
                         </p>
@@ -542,11 +535,7 @@
                 </xs:simpleType>
             </xs:element>
             
-<<<<<<< HEAD
             <!-- WARNING: ho tipizzato a boolean in considerazione della semantica dell'element, originariamente era un numero di 1 cifra come da file excel CIE2-Integrazione.xlsx -->
-=======
-            
->>>>>>> origin/revisione-antonio
             <xs:element name="soggettoAIRE" type="xs:boolean" minOccurs="0">
                 <xs:annotation>
                     <xs:documentation>
@@ -561,12 +550,7 @@
             </xs:element>
         </xs:sequence>
     </xs:complexType>
-<<<<<<< HEAD
         
-=======
-    
-    
->>>>>>> origin/revisione-antonio
     <xs:complexType name="generalitaRichiestaType">
         <xs:sequence>
             <xs:element name="codiceFiscale" type="simple:CodiceFiscaleType">
