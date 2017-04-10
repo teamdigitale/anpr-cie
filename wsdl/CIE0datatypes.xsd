@@ -23,7 +23,11 @@
                 <xs:sequence>
                     <xs:element name="testataRichiesta" type="complex:testataRichiestaType"/>
                     <xs:element name="generalita" type="complex:generalitaRichiestaType"/>
+<<<<<<< HEAD
                     <xs:element name="datiControllo" type="complex:datiControlloType"/>                   
+=======
+                    <xs:element name="datiControllo" type="complex:datiControlloType"/>
+>>>>>>> origin/revisione-antonio
                 </xs:sequence>
             </xs:complexType>
         </xs:element>
@@ -123,12 +127,19 @@
                     
                     <!-- CHANGED: incluso nel type cartaIdentitaAnnullamentoType utilizzato per l'element cartaIdentita  
                     <xs:element name="dataAnnulamento" type="xs:date"/>
+<<<<<<< HEAD
                     -->
                     
                     <xs:element name="motivazione" >
                         <xs:annotation>
                             <xs:documentation>
                                 1=SMARRIMENTO
+=======
+                    <!-- Necessario indicare motivazione di revoca.-->
+                    <xs:element name="motivazione" type="xs:int">
+                        <xs:annotation>
+                            <xs:documentation>1=SMARRIMENTO
+>>>>>>> origin/revisione-antonio
                                 2=FURTO
                                 3=MANOMISSIONE
                                 4=DETERIORAMENTO
@@ -138,6 +149,7 @@
                                 11=VARIAZIONI ANAGRAFICHE
                                 12=ERRORE DI EMISSIONE
                                 13=RESTITUZIONE A SEGUITO DI DECESSO
+<<<<<<< HEAD
                                 14=RESTITUZIONE PER ALTRI MOTIVI
                             </xs:documentation>
                         </xs:annotation>
@@ -147,6 +159,10 @@
                                 <xs:maxInclusive value="14"/>
                             </xs:restriction>
                         </xs:simpleType>
+=======
+                                14=RESTITUZIONE PER ALTRI MOTIVI</xs:documentation>
+                        </xs:annotation>
+>>>>>>> origin/revisione-antonio
                     </xs:element>
                 </xs:sequence>
             </xs:complexType>
@@ -162,6 +178,7 @@
                 </xs:documentation>
             </xs:annotation>
             <xs:complexType>
+<<<<<<< HEAD
                 <xs:sequence>
                     <xs:element name="testataRisposta" type="complex:testataRispostaType"/>
                     <xs:element name="listaErrori" type="complex:erroreType" minOccurs="0" maxOccurs="unbounded"/>
@@ -171,17 +188,29 @@
                     
                     <xs:choice>
                     <xs:sequence>
+=======
+                <xs:choice>
+                    <!-- CHANGED: Allineata la struttura a quella di CIE8Response
+                    <xs:sequence>-->
+>>>>>>> origin/revisione-antonio
                         <xs:element name="testataRisposta" type="complex:testataRispostaType"/>
                         
                         <!-\- CHANGED: eliminato inoltro valore costante 
                         WARINING: a cosa serve inoltrare un valore costante? 
                         <xs:element name="operazioneRichiesta" type="complex:operazioneRichiestaType"/>
+<<<<<<< HEAD
                         -\->
                         
                         <!-\- CHANGED: a cosa server resituire le info sulla carta di identità in caso di esito positivo
                         <xs:element name="cartaIdentita" type="complex:cartaIdentitaType"/>
                         -\->
                     </xs:sequence>
+=======
+                        -->
+                    <!--
+                        <xs:element name="cartaIdentita" type="complex:cartaIdentitaType"/>
+                   </xs:sequence>-->
+>>>>>>> origin/revisione-antonio
                     <xs:element name="rispostaKO" type="complex:rispostaKOType"/>
                 </xs:choice>
                 -->

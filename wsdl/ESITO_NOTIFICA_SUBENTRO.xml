@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<risposta xmlns="http://ssce.cie.ipzs.it/schemas" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ssce.cie.ipzs.it/schemas SSCE-ANPR.xsd">
+    <esito>
+        <!-- CODICE A 4 CIFRE --> 
+        <!-- 0000:successo-->
+        <!-- 0001:messaggio non valido-->
+        <!-- 0002:errore generale nell'elaborazione, sistema non disponibile-->
+        <!-- 0003:comune non trovato-->
+        <!-- 0004:notifica in stand by-->
+        <codice>0000</codice>
+        <descrizione>SUCCESSO</descrizione>
+    </esito>
+</risposta>
+

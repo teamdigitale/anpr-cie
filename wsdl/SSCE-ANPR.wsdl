@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://ssce.cie.ipzs.it/services/anpr" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+    xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ws="http://www.example.com/webservice" xsi:schemaLocation="http://schemas.xmlsoap.org/wsdl/ http://schemas.xmlsoap.org/wsdl/wsdl.xsd http://www.w3.org/2001/XMLSchema http://www.w3.org/2001/XMLSchema.xsd"
+    xmlns:tns="http://ssce.cie.ipzs.it/services/anpr" xmlns:ns="http://ssce.cie.ipzs.it/schemas">
+    <wsdl:types>    
+        <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified" xmlns="http://ssce.cie.ipzs.it/schemas" targetNamespace="http://ssce.cie.ipzs.it/schemas">
+            
+            <xs:element name="istat_comune" type="xs:int"/>
+            <xs:element name="data_subentro" type="xs:date"/>
+            <xs:element name="richiesta">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element ref="istat_comune"/>
+                        <xs:element minOccurs="0" ref="data_subentro"/>
+                    </xs:sequence>
+                    <xs:attribute name="tipo">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:enumeration value="NOTIFICA_SUBENTRO"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:attribute>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="codice" type="xs:string"/>
+            <xs:element name="descrizione" type="xs:string"/>
+            <xs:element name="esito">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element ref="codice"/>
+                        <xs:element ref="descrizione"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="risposta">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element ref="esito"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:schema>
+    </wsdl:types>
+    <wsdl:message name="NotificaSubentroRequest">
+        <wsdl:part name="parameter" element="ns:richiesta"/>
+    </wsdl:message>
+    <wsdl:message name="NotificaSubentroResponse">
+        <wsdl:part name="parameter" element="ns:risposta"/>
+    </wsdl:message>
+    <wsdl:portType name="NotificaSubentroPortType">
+        <wsdl:operation name="NotificaSubentro">
+            <wsdl:input message="tns:NotificaSubentroRequest"/>
+            <wsdl:output message="tns:NotificaSubentroResponse"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="NotificaSubentroBinding" type="tns:NotificaSubentroPortType">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="NotificaSubentro">
+            <soap:operation soapAction="http://SSCE/NotificaSubentro"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="ANPRNotificaSubentroService">
+        <wsdl:port name="NotificaSubentroPort" binding="tns:NotificaSubentroBinding">
+            <soap:address location="http://localhost:8080/ANPRNotificaSubentroService"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>
