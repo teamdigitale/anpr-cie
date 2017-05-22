@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://sogei.it/ANPR/tipoDato" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://sogei.it/ANPR/tipoDato" elementFormDefault="unqualified" attributeFormDefault="unqualified">
+	
+	<xs:simpleType name="alfabeticoComune">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="80"/>
+			<xs:pattern value="([0-9À-ža-zA-Z\- &apos;/.,])*"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- Fine alfabeticoComune -->
+
+	<!-- tipo alfabetico della provincia -->
+	<xs:simpleType name="alfabeticoProvincia">
+		<xs:restriction base="xs:string">
+			<xs:length value="2"/>
+			<xs:pattern value="([a-zA-Z])*"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- Fine tipo alfabetico della provincia -->
+
+	<xs:simpleType name="char6">
+		<xs:restriction base="xs:string">
+			<xs:length value="6"/>
+		</xs:restriction>
+	</xs:simpleType>
+<!-- tipoComuneRichiesta -->
+	<xs:complexType name="tipoComuneRichiesta">
+		<xs:sequence>
+			<xs:element name="nomeComune"         		 			type="alfabeticoComune"			minOccurs="1" maxOccurs="1"/>
+			<xs:element name="codiceIstat"       		 			type="char6"              		minOccurs="1" maxOccurs="1"/>
+			<xs:element name="siglaProvinciaIstat"		 			type="alfabeticoProvincia"		minOccurs="1" maxOccurs="1"/>			
+		</xs:sequence>
+	</xs:complexType>
+<!-- fine tipoComuneRichiesta -->
+
+</xs:schema>

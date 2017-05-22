@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://sogei.it/ANPR/N000notificheCIE"
+		   targetNamespace="http://sogei.it/ANPR/N000notificheCIE"
+		   xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:vcbl="http://sogei.it/ANPR/vocabolarioN000CIE"
+	       elementFormDefault="unqualified" 
+	       attributeFormDefault="unqualified">
+	       
+<xs:import namespace="http://sogei.it/ANPR/vocabolarioN000CIE"  schemaLocation="vocabolarioN000CIE.xsd"/>
+
+<!-- NotificaN031 -->
+	<xs:element name="NotificaN031" type="vcbl:tipoNotificheN031" >
+	   <xs:annotation>
+           <xs:documentation>
+               <p>Notifica di avvenuto subentro</p>	                            
+           </xs:documentation>
+       </xs:annotation>
+	</xs:element>
+<!-- Fine NotificaN031 -->
+
+</xs:schema>
+	

@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<!-- 
+	WARNING: 
+	La proposta di SOGEI, fatto salvo il chiarimento sul contenuto della risposta, è accettabile amche in considerazione del vantaggio che SOGEI dichiara 
+	che tale servizio è già implementato. A mio avviso l'affermazione di SOGEI mi crea di dubbi, in quanto l'esistenza dell'interfaccia non significa che
+	il processo applicativo necessario a notificare il subentro di un Comun (prima non vi era l'esigenza)
+
+-->
+
+
+<wsdl:definitions targetNamespace="http://sogei.it/ANPR/N000AnprService" 
+    xmlns:tns="http://sogei.it/ANPR/N000AnprService" 
+    xmlns:schema="http://sogei.it/ANPR/N000notifiche"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+	xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<wsdl:types>
+		<xsd:schema targetNamespace="http://sogei.it/ANPR/N000AnprService">
+			
+			<xsd:element name="RichiestaN000">		
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="testataNotifica" type="tns:tipoDatoTestataNotifica" minOccurs="1" maxOccurs="1"/>
+						<xsd:element name="contenuto" type="xsd:base64Binary" xmime:expectedContentTypes="application/octet-stream"
+							xmlns:xmime="http://www.w3.org/2005/05/xmlmime" minOccurs="1" maxOccurs="1"/>
+						
+						<!--
+							WARNING: 
+							Cosa ci si scambia? nella documentazione è detto che ANPR notifica i dati del comune subentrato e la data di avvenuto subentro
+							
+							perchè il type dell'elemento contenuto non è strutturato, ad esempio:
+							
+								<xsd:complexType name="contenutoNotifica">
+										<xsd:sequence>
+											<xsd:element name="codice_istat_comune">
+												<xs:simpleType >
+													<xs:restriction base="xs:string">
+														<xs:length value="6"/>
+														<xs:pattern value="([0-9])*"/>
+													</xs:restriction>
+												</xs:simpleType>	
+											</xsd:element>
+											
+											<xsd:element name="dataSubentro" type="xsd:date"/>
+										</xsd:sequence>				
+								</xsd:complexType>									
+						-->
+						
+						
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>	
+			
+			<xsd:element name="RispostaN000">		
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="codiceEsito" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+						<xsd:element name="esito" type="xsd:string" minOccurs="1" maxOccurs="1" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>	
+			
+			<xsd:complexType name="tipoDatoTestataNotifica">
+				<xsd:sequence>
+					<xsd:element name="tipoNotifica" 		type="xsd:string" 	minOccurs="1" maxOccurs="1">
+						<xsd:annotation>
+							<xsd:documentation>
+								DESCRIZIONE
+									codice identificativo della tipologia di notifica 
+								FORMATO
+									Alfanumerico lunghezza 4
+								REGOLE
+									N031
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					
+					<xsd:element name="codMittente" 		type="xsd:string" 	minOccurs="1" maxOccurs="1">
+							<xsd:annotation>
+								<xsd:documentation>
+									DESCRIZIONE
+										
+									FORMATO
+										Alfanumerico lunghezza 6
+									REGOLE
+										costante ANPR000
+								</xsd:documentation>
+							</xsd:annotation>
+					</xsd:element>
+					
+					<xsd:element name="codDestinatario" 	type="xsd:string" 	minOccurs="1" maxOccurs="1">
+						<xsd:annotation>
+							<xsd:documentation>
+								DESCRIZIONE
+									Codice identificativo del destinatario (per i comuni è il codice ISTAT)
+								FORMATO
+									Alfanumerico lunghezza 6
+								REGOLE
+									Vale 500000 per identificare il Ministero dell'Interno
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					
+					<xsd:element name="dataOraRichiesta" 	type="xsd:dateTime" minOccurs="1" maxOccurs="1">
+						<xsd:annotation>
+							<xsd:documentation>
+								DESCRIZIONE
+									La data e l‟ora in cui si invia la comunicazione anagrafica ad ANPR
+								FORMATO
+									DataTime
+								REGOLE
+									
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					
+					<xsd:element name="idOperazioneANPR" 	type="xsd:integer" 	minOccurs="1" maxOccurs="1">
+						<xsd:annotation>
+							<xsd:documentation>
+								DESCRIZIONE
+									Identificativo univoco attribuito all'operazione da ANPR
+								FORMATO
+									Numerico massimo 30
+								REGOLE
+									Identificativo univoco attribuito da ANPR
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:complexType>
+			
+		</xsd:schema>
+	</wsdl:types>
+
+	<wsdl:message name="RichiestaN000">
+		<wsdl:part name="request" element="tns:RichiestaN000"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="RispostaN000">
+		<wsdl:part name="response" element="tns:RispostaN000"></wsdl:part>
+	</wsdl:message>
+	<wsdl:portType name="AnprPortTypeN000">  
+		<wsdl:operation name="inoltroNotificaANPR">
+			<wsdl:input message="tns:RichiestaN000"></wsdl:input>
+			<wsdl:output message="tns:RispostaN000"></wsdl:output>
+		</wsdl:operation>
+	</wsdl:portType>
+	
+	<wsdl:binding name="AnprBindingN000" type="tns:AnprPortTypeN000">    
+		<wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>    
+		<wsdl:operation name="inoltroNotificaANPR">      
+			<wsdlsoap:operation soapAction=""/>      
+			<wsdl:input>        
+				<wsdlsoap:body use="literal"/>      
+			</wsdl:input>      
+			<wsdl:output>        
+				<wsdlsoap:body use="literal"/>     
+			</wsdl:output> 
+		</wsdl:operation>  
+	</wsdl:binding>  
+	
+	<wsdl:service name="AnprServiceN000">    
+		<wsdl:port binding="tns:AnprBindingN000" name="AnprServicePortN000"> 
+		     <wsdlsoap:address location="http://localhost:9080/ANPRN000ServizioNotifiche/AnprServiceN000"/>
+		</wsdl:port>  
+	</wsdl:service>
+	
+</wsdl:definitions>

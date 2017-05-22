@@ -10,6 +10,7 @@
             
             <xs:element name="istat_comune" type="xs:int"/>
             <xs:element name="data_subentro" type="xs:date"/>
+            
             <xs:element name="richiesta">
                 <xs:complexType>
                     <xs:sequence>
@@ -25,8 +26,10 @@
                     </xs:attribute>
                 </xs:complexType>
             </xs:element>
+            
             <xs:element name="codice" type="xs:string"/>
             <xs:element name="descrizione" type="xs:string"/>
+            
             <xs:element name="esito">
                 <xs:complexType>
                     <xs:sequence>
@@ -35,6 +38,7 @@
                     </xs:sequence>
                 </xs:complexType>
             </xs:element>
+            
             <xs:element name="risposta">
                 <xs:complexType>
                     <xs:sequence>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://sogei.it/ANPR/CIEAnprService" 
+    xmlns:tns="http://sogei.it/ANPR/CIEAnprService" 
+    xmlns:schema="http://sogei.it/ANPR/CIE0Servizi"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+	xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	
+	<wsdl:types> 
+		<xsd:schema targetNamespace="http://sogei.it/ANPR/CIEAnprService">    
+			<xsd:import namespace="http://sogei.it/ANPR/CIE0Servizi" schemaLocation="../CIE0Servizi.xsd" />  
+		</xsd:schema>
+	</wsdl:types>
+	
+	<wsdl:message name="RichiestaCIE">
+		<wsdl:part name="request" element="schema:RichiestaCIE"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="RispostaCIE">
+		<wsdl:part name="response" element="schema:RispostaCIE"></wsdl:part>
+	</wsdl:message>
+
+	<wsdl:portType name="AnprPortTypeCIE">  
+		<wsdl:operation name="richiestaServizioCIE">
+			<wsdl:documentation>
+                <p>L'interfaccia dei servizi CIE è costituita da un'unica operazione.</p>
+                <p>Il messaggio di input è costituito da:</p>
+                <ul>
+                	<li>una testata descrittiva dell'operazione richiesta</li>
+                	<li>un contenuto in formato xml relativo all'operazione richiesta, valido secondo le specifiche xsd per l'operazione stessa</li>
+            	</ul>
+                <p>Il messaggio di output è costituito da:</p>
+                <ul>
+                	<li>una testata descrittiva della risposta</li>
+                	<li>un contenuto in formato xml valido secondo le specifiche xsd per la risposta all'operazione richiesta</li>
+            	</ul>
+            </wsdl:documentation>
+		
+			<wsdl:input message="tns:RichiestaCIE"></wsdl:input>
+			<wsdl:output message="tns:RispostaCIE"></wsdl:output>
+		</wsdl:operation>
+	</wsdl:portType>
+	
+	<wsdl:binding name="AnprBindingCIE" type="tns:AnprPortTypeCIE">    
+		<wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>    
+		<wsdl:operation name="richiestaServizioCIE">      
+			<wsdlsoap:operation soapAction=""/>      
+			<wsdl:input>        
+				<wsdlsoap:body use="literal"/>      
+			</wsdl:input>      
+			<wsdl:output>        
+				<wsdlsoap:body use="literal"/>     
+			</wsdl:output> 
+		</wsdl:operation>  
+	</wsdl:binding>  
+	
+	<wsdl:service name="AnprServiceCIE">    
+		<wsdl:port binding="tns:AnprBindingCIE" name="AnprServicePortCIE"> 
+		     <wsdlsoap:address location="http://localhost:9080/ANPRCIE/AnprServiziCIE"/>
+		</wsdl:port>  
+	</wsdl:service>
+	
+</wsdl:definitions>
