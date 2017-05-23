@@ -37,7 +37,6 @@
 	</xs:complexType>
 </xs:element>
 	
-	<!-- WARNING: Non si capisce perchè definire un messaggio senza tipizzazione del contenuto e lasciare all'utilizzo la corretta tipizzazione del messaggio a run time? -->
 
 <xs:element name="RispostaCIE">  
 	<xs:complexType>    
@@ -49,7 +48,6 @@
 			</xs:annotation>
 			<xs:element name="testataRisposta" 		type="anpr:tipoTestataRisposta" 	minOccurs="1" maxOccurs="1"/>
 			<xs:element name="contenuto" type="xs:base64Binary" xmime:expectedContentTypes="application/octet-stream" xmlns:xmime="http://www.w3.org/2005/05/xmlmime" minOccurs="1" maxOccurs="1">
-				<!-- WARNING nel foglio excel il presente element è denomanitato RispostaCIEX -->
 					<xs:annotation>
 		                <xs:documentation>
 		                    <p>Il contenuto deve essere in formato xml di risposta relativa all'operazione richiesta e in particolare:
@@ -65,10 +63,6 @@
 		</xs:sequence>
 	</xs:complexType>
 </xs:element>
-	
-	<!-- WARNING: Non si capisce perchè definire un messaggio senza tipizzazione del contenuto e lasciare all'utilizzo la corretta tipizzazione del messaggio a run time? -->
-	
-
  <!-- fine CIE -->
 
 <!-- CIE2 -->

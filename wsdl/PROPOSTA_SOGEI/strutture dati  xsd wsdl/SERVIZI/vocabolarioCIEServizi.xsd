@@ -87,8 +87,7 @@
 
     <xs:complexType name="tipoDatiControllo">
         <xs:sequence>
-            <xs:element name="comuneResidenza" type="tpdt:char6" minOccurs="1" maxOccurs="1">
-            	<!-- WARNING: sarebbe possibile tipizzare meglio il codice istat (una stringa di 6 numeri) -->
+            <xs:element name="comuneResidenza" type="tpdt:char6" minOccurs="1" maxOccurs="1">            	
                 <xs:annotation>
                     <xs:documentation>
                         <p>Il codice Istat del Comune nel quale risiede il soggetto o nel quale è iscritto all'AIRE</p>
@@ -96,8 +95,7 @@
                 </xs:annotation>
             </xs:element>
             
-            <xs:element name="soggettoAIRE" type="tpdt:tipoSN" minOccurs="0">
-            	<!-- WARNING: perchè non tipizzare con xs:boolean-->
+            <xs:element name="soggettoAIRE" type="tpdt:tipoSN" minOccurs="0">            	
                 <xs:annotation>
                     <xs:documentation>
                         <p></p>	                        

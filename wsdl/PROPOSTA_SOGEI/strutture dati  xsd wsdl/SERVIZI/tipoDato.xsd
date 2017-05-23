@@ -472,8 +472,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="tipoInvio" type="tipoInvioAmmesso" minOccurs="1" maxOccurs="1" >
-				<!-- WARNING: a cosa serve? i servizi sono ex-novo o riutilizzano servizi già esistenti in ANPR? -->
+			<xs:element name="tipoInvio" type="tipoInvioAmmesso" minOccurs="1" maxOccurs="1" >				
                     <xs:annotation>
                         <xs:documentation>
                             <p>Specifica in quale ambiente si esegue il servizio</p>	
@@ -520,11 +519,6 @@
 					<xs:documentation><p>Versione del servizio</p></xs:documentation>
 				</xs:annotation>
 			</xs:element>
-		
-			<!-- WARNING: nel folio Excel sono presenti:
-					- idPostazione
-					- idUtente
-			-->
 		</xs:sequence>
 	</xs:complexType>
 <!-- fine tipoDatoTestataRichiesta -->
@@ -611,10 +605,6 @@
 				</xs:annotation>
 			</xs:element>			
 			
-			<!-- WARNING il campo tipoOperazione non è presente nel file Excel, bensi ci sono: protocolloComune, dataProtocolloComune, dataDecorrenza 
-				forse non sono cessari ne quelli indicati su Excel che quello presente qui
-			-->
-			
 			<xs:element name="idOperazioneANPR" 	type="numericoMax30" 			minOccurs="1" maxOccurs="1">
 				<xs:annotation>
 					<xs:documentation>
@@ -630,9 +620,6 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-
-			<!--  WARNING forse è il caso di classificare i tipi di errori possibili? -->
-			
 		</xs:sequence>		
 	</xs:complexType>
 <!-- fine tipoDatoTestataRisposta -->
@@ -682,7 +669,6 @@
 			<xs:element name="comuneRegistrazione" type="tipoComune"   minOccurs="1" maxOccurs="1">
 			    <xs:annotation>
                     <xs:documentation>
-                        <!-- WARNING: basta il comune di trascrizione per CIE? -->
                         <p>Indica il comune di formazione/trascrizione</p>	
                     </xs:documentation>
                 </xs:annotation>
@@ -784,7 +770,6 @@
                         <p>Indica il codice dello stato corrispondente</p>
                         <p><b>VALORI AMMESSI</b>
                             <ol>
-                                <!-- WARNING: andrebbe chiarito quale codice usare? forse quello ISTAT? -->
                                 <li>Valori presenti nella <a href="https://italia.github.io/anpr/tab/tab_stati_esteri.html.html" target="_self">tabella 2</a></li>							
                             </ol>
                         </p>
@@ -1139,9 +1124,6 @@ Non deve essere indicata se coincide con nomeComune.</xs:documentation>
 			</xs:element>
 		</xs:sequence>	
 	</xs:complexType>
-	
-	<!-- WARNING il foglio Excel riporta altri campi (cognome, senzaCognome, nome, senzaNome, sesso, dataNascita, senzaGiorno, senzaGiornoMese, luogoNascita, idSchedaSoggettoANPR) -->
-	
 <!-- Fine tipoGeneralitaPerRicerca -->
 
 <!-- tipoIndirizzo -->

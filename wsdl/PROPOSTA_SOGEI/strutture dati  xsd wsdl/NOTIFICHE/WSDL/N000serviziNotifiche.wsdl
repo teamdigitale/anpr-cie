@@ -1,15 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-
-<!-- 
-	WARNING: 
-	La proposta di SOGEI, fatto salvo il chiarimento sul contenuto della risposta, è accettabile amche in considerazione del vantaggio che SOGEI dichiara 
-	che tale servizio è già implementato. A mio avviso l'affermazione di SOGEI mi crea di dubbi, in quanto l'esistenza dell'interfaccia non significa che
-	il processo applicativo necessario a notificare il subentro di un Comun (prima non vi era l'esigenza)
-
--->
-
-
 <wsdl:definitions targetNamespace="http://sogei.it/ANPR/N000AnprService" 
     xmlns:tns="http://sogei.it/ANPR/N000AnprService" 
     xmlns:schema="http://sogei.it/ANPR/N000notifiche"
@@ -25,30 +14,6 @@
 						<xsd:element name="testataNotifica" type="tns:tipoDatoTestataNotifica" minOccurs="1" maxOccurs="1"/>
 						<xsd:element name="contenuto" type="xsd:base64Binary" xmime:expectedContentTypes="application/octet-stream"
 							xmlns:xmime="http://www.w3.org/2005/05/xmlmime" minOccurs="1" maxOccurs="1"/>
-						
-						<!--
-							WARNING: 
-							Cosa ci si scambia? nella documentazione è detto che ANPR notifica i dati del comune subentrato e la data di avvenuto subentro
-							
-							perchè il type dell'elemento contenuto non è strutturato, ad esempio:
-							
-								<xsd:complexType name="contenutoNotifica">
-										<xsd:sequence>
-											<xsd:element name="codice_istat_comune">
-												<xs:simpleType >
-													<xs:restriction base="xs:string">
-														<xs:length value="6"/>
-														<xs:pattern value="([0-9])*"/>
-													</xs:restriction>
-												</xs:simpleType>	
-											</xsd:element>
-											
-											<xsd:element name="dataSubentro" type="xsd:date"/>
-										</xsd:sequence>				
-								</xsd:complexType>									
-						-->
-						
-						
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>	
