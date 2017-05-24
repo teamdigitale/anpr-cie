@@ -15,6 +15,6 @@ La prima redazione dei file è derivata dalla lettura dei documenti predisposti,
 - file excel forniti da SOGEI
 
 ## History
-22-05-2017  Vintra  AGGIUNTA PROPOSTA SOGEI 11/05/2017
-10-04-2017  Vintra  MERGE IPZS
-05-04-2017  Mirko   AVVIATO REPOSITORY 
+- 22-05-2017  Vintra  AGGIUNTA PROPOSTA SOGEI 11/05/2017
+- 10-04-2017  Vintra  MERGE IPZS
+- 05-04-2017  Mirko   AVVIATO REPOSITORY 
