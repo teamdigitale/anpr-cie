@@ -10,7 +10,7 @@ Esempio: motivazione di inibizione per la produzione della CIE attese da IPZS.
 
 
 ## Note alla produzione dei file
-La prima redazione dei file &grave; derivata dalla lettura dei documenti predisposti, di specie:
+La prima redazione dei file &egrave; derivata dalla lettura dei documenti predisposti, di specie:
 - MI-42-AN-01SpecCieOnLine frutto del lavoro congiunto di SOGEI e IPZS
 - file excel forniti da SOGEI
 
