@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions  
+    targetNamespace="http://www.anpr.interno.it/ANPR_CIE_Integration/ServerCIEOnline/Service"
+    
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    
+    xmlns:datatype="http://www.anpr.interno.it/ANPR_CIE_Integration/ServerCIEOnline/Datatypes"
+    xmlns:service="http://www.anpr.interno.it/ANPR_CIE_Integration/ServerCIEOnline/Service">
+    
+    
+    <!-- section: TYPES -->
+    <wsdl:types>
+        <xsd:schema>
+            <xsd:import namespace="http://www.anpr.interno.it/ANPR_CIE_Integration/ServerCIEOnline/Datatypes" schemaLocation="ServerCIEOnline_Datatype.xsd"/>
+        </xsd:schema>
+    </wsdl:types>
+    
+    <!-- section: MESSAGE -->    
+    <wsdl:message name="N031Request">
+        <wsdl:part name="request" type="datatype:N031Request"/>
+    </wsdl:message>
+    
+    <wsdl:message name="N031Response">
+        <wsdl:part name="respose" type="datatype:N031Response"/>
+    </wsdl:message>
+    
+</wsdl:definitions>

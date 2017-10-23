@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions 
+    targetNamespace="http://www.anpr.interno.it/ANPR_CIE_Integration/ServerANPR/Service"
+    
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+   
+    xmlns:datatype="http://www.anpr.interno.it/ANPR_CIE_Integration/ServerANPR/Datatypes"
+    xmlns:service="http://www.anpr.interno.it/ANPR_CIE_Integration/ServerANPR/Service">
+    
+    
+    <!-- section: TYPES -->
+    <wsdl:types>
+        <xsd:schema>
+            <xsd:import namespace="http://www.anpr.interno.it/ANPR_CIE_Integration/ServerANPR/Datatypes" schemaLocation="ServerANPR_Datatypes.xsd"/>
+        </xsd:schema>
+    </wsdl:types>
+    
+    
+    <!-- section: MESSAGE -->    
+        <!-- subsection: message for operation: CIE2 - Interrogazione dei dati anagrafici  -->
+        <wsdl:message name="CIE2Request">
+            <wsdl:part name="request" type="datatype:CIE2Request"/>
+        </wsdl:message>
+        
+        <wsdl:message name="CIE2Response">
+            <wsdl:part name="respose" type="datatype:CIE2Response"/>
+        </wsdl:message>
+    
+        <!-- subsection: message for operation: CIE7 - Annulamento CIE  -->
+        <wsdl:message name="CIE7Request">
+            <wsdl:part name="request" type="datatype:CIE7Request"/>
+        </wsdl:message>
+        
+        <wsdl:message name="CIE7Response">
+            <wsdl:part name="respose" type="datatype:CIE7Response"/>
+        </wsdl:message>
+    
+        <!-- subsection: message for operation: CIE8 - Emissione CIE  -->
+        <wsdl:message name="CIE8Request">
+            <wsdl:part name="request" type="datatype:CIE8Request"/>
+        </wsdl:message>
+        
+        <wsdl:message name="CIE8Response">
+            <wsdl:part name="respose" type="datatype:CIE8Response"/>
+        </wsdl:message>
+    
+    
+    <!--  section: PORTTYPE -->
+    <wsdl:portType name="ServerANPRPortType">        
+        <!-- subsection: porttype for operation: CIE2 - Interrogazione dei dati anagrafici  -->
+        <wsdl:operation name="CIE2">
+            <wsdl:input   message="service:CIE2Request"/>    
+            <wsdl:output  message="service:CIE2Response"/>
+        </wsdl:operation>
+        
+        <!-- subsection: porttype for operation: CIE7 - Annulamento CIE  -->
+        <wsdl:operation name="CIE7">
+            <wsdl:input   message="service:CIE7Request"/>    
+            <wsdl:output  message="service:CIE7Response"/>
+        </wsdl:operation>
+        
+        <!-- subsection: porttype for operation: CIE8 - Emissione CIE  -->
+        <wsdl:operation name="CIE8">
+            <wsdl:input   message="service:CIE8Request"/>    
+            <wsdl:output  message="service:CIE8Response"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    
+    
+    <!-- section: BINDING -->
+    <wsdl:binding name="ServerANPRBinding" type="service:ServerANPRPortType">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        
+        <!-- subsection: binding for operation: CIE2 - Interrogazione dei dati anagrafici  -->
+        <wsdl:operation name="CIE2">
+            <soap:operation soapAction="http://www.anpr.interno.it/ANPR_CIE_Integration/Service/CIE2"/>
+            <wsdl:input>        
+                <soap:body use="literal"/>      
+            </wsdl:input>      
+            <wsdl:output>        
+                <soap:body use="literal"/>      
+            </wsdl:output>
+        </wsdl:operation>
+        
+        <!-- subsection: binding for operation: CIE7 - Annulamento CIE  -->
+        <wsdl:operation name="CIE7">
+            <soap:operation soapAction="http://www.anpr.interno.it/ANPR_CIE_Integration/Service/CIE7"/>
+            <wsdl:input>        
+                <soap:body use="literal"/>      
+            </wsdl:input>      
+            <wsdl:output>        
+                <soap:body use="literal"/>      
+            </wsdl:output>
+        </wsdl:operation>
+        
+        <!-- subsection: binding for operation: CIE8 - Emissione CIE  -->
+        <wsdl:operation name="CIE8">
+            <soap:operation soapAction="http://www.anpr.interno.it/ANPR_CIE_Integration/Service/CIE8"/>
+            <wsdl:input>        
+                <soap:body use="literal"/>      
+            </wsdl:input>      
+            <wsdl:output>        
+                <soap:body use="literal"/>      
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    
+    <!-- section: SERVICE -->
+    <wsdl:service name="ServerANPR">        
+        <wsdl:port name="ServerANPRPort" binding="service:ServerANPRBinding">
+            <soap:address location="http://www.anpr.interno.it/ANPR_CIE_Integration/Service"/> 
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>

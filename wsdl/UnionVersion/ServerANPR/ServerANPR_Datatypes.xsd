@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema 
+    targetNamespace="http://www.anpr.interno.it/ANPR_CIE_Integration/ServerANPR/Datatypes"
+    
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:anpr="http://sogei.it/ANPR/tipoDato"   
+    xmlns:datatype="http://www.anpr.interno.it/ANPR_CIE_Integration/ServerANPR/Datatypes"
+    
+    elementFormDefault="unqualified" attributeFormDefault="unqualified">
+    
+ 
+    <xs:import namespace="http://sogei.it/ANPR/tipoDato" schemaLocation="../tipoDato.xsd"/>
+    
+    <!-- CIE2 - Interrogazione dei dati anagrafici  -->
+    <xs:complexType name="CIE2Request">
+        <xs:sequence>          
+            <xs:element name="testataRichiesta" type="datatype:testaRichiestaSemplice"/>
+            <xs:element name="generalita" type="datatype:generalitaRichiestaType"/>                           
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="CIE2Response">
+        <xs:sequence>            
+            <xs:choice>
+                <xs:element name="listaSoggetti" type="datatype:tipoDatiSoggetto" maxOccurs="unbounded"/>
+                <xs:element name="listaErrori" type="anpr:tipoErroriAnomalia" maxOccurs="unbounded"/>
+            </xs:choice>                    
+        </xs:sequence>
+    </xs:complexType>
+    
+    
+    <!-- CIE7 - Annulamento CIE  -->
+    <xs:complexType name="CIE7Request">
+        <xs:sequence>
+            <xs:element name="testataRichiesta" type="datatype:testaRichiesta"/>
+            <xs:element name="cartaIdentita" type="anpr:tipoCartaIdentita"/>
+            <xs:element name="dataAnnullamento" type="xs:date"/>                          
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="CIE7Response">
+        <xs:sequence>            
+            <xs:choice>
+                <xs:element name="cartaIdentitaAnnullata" type="anpr:tipoCartaIdentita"/>   
+                <xs:element name="listaErrori" type="anpr:tipoCartaIdentita" maxOccurs="unbounded"/> 
+            </xs:choice>                    
+        </xs:sequence>
+    </xs:complexType>
+    
+    
+    <!-- CIE8 - Emissione CIE  -->
+    <xs:complexType name="CIE8Request">
+        <xs:sequence>
+            <xs:element name="testataRichiesta" type="datatype:testaRichiesta"/>
+            <xs:element name="cartaIdentita" type="anpr:tipoCartaIdentita"/>                                 
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="CIE8Response">
+        <xs:choice>
+            <xs:element name="cartaIdentitaEmessa" type="anpr:tipoCartaIdentita"/>   
+            <xs:element name="listaErrori" type="anpr:tipoErroriAnomalia" maxOccurs="unbounded"/>
+        </xs:choice>
+    </xs:complexType>
+    
+    <!-- section: complexType -->
+    <xs:complexType name="testaRichiesta">
+        <xs:sequence>
+            <xs:element name="codISTATComune" type="datatype:ISTATComune"/>
+            <xs:element name="idOperatore" type="datatype:codiceFiscaleType"/>
+            <xs:element name="idPostazione" type="datatype:MAC"/>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="testaRichiestaSemplice">
+        <xs:choice>
+            <xs:element name="codISTATComune" type="datatype:ISTATComune"/>
+            <xs:element name="enteRichiedente" type="xs:string"/>            
+        </xs:choice>
+    </xs:complexType>
+    
+    <xs:complexType name="generalitaRichiestaType">
+        <xs:sequence>
+            <xs:element name="idSchedaSoggettoANPR" type="anpr:numericoMax15" minOccurs="0"/>
+            <xs:element name="soggettoCF" type="datatype:codiceFiscaleType"/>          
+            <xs:element name="soggettoComune" type="datatype:ISTATComune"/>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="tipoDatiSoggetto">
+        <xs:sequence>
+            <xs:element name="generalita" type="anpr:tipoGeneralita"/>			
+            <xs:element name="attoNascita" type="anpr:tipoAtto" minOccurs="0"/>            
+            <xs:element name="statoCivile" type="anpr:tipoStatoCivile" minOccurs="0"/>
+            <xs:element name="paternita" type="anpr:tipoGeneralita" minOccurs="0"/>            
+            <xs:element name="maternita" type="anpr:tipoGeneralita" minOccurs="0"/>            
+            <xs:element name="residenza" type="anpr:tipoResidenza" minOccurs="0"/>            
+            <xs:element name="cittadinanza" type="anpr:tipoCittadinanza" minOccurs="0"/>       
+            <xs:element name="provenienzaInformazioni" type="anpr:tipoProvenienzaInfo" minOccurs="0"/>
+            <!-- DA COMPLETARE-->
+            <xs:element name="motiviOstativi"/>
+        </xs:sequence>  
+    </xs:complexType>
+    
+    
+    <!-- section: simpleType -->
+    <xs:simpleType name="codiceFiscaleType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[A-Z]{6}[0-9LMNPQRSTUV]{2}[ABCDEHLMPRST][0-9LMNPQRSTUV]{2}[A-Z][0-9LMNPQRSTUV]{3}[A-Z]"/>
+        </xs:restriction>
+    </xs:simpleType>
+    
+    <xs:simpleType name="MAC">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="([0-9A-F]{2}:){5}[0-9A-F]{2}"/>
+        </xs:restriction>
+    </xs:simpleType>
+    
+    <xs:simpleType name="ISTATComune">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="\d{6}"/>
+        </xs:restriction>
+    </xs:simpleType>
+    
+    
+    <!-- section: enumeration -->
+    <xs:simpleType name="Sesso">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="M"/>
+            <xs:enumeration value="F"/>
+        </xs:restriction>
+    </xs:simpleType>
+    
+</xs:schema>

@@ -30,7 +30,7 @@
                                 <li>In caso di richiesta <b>CIE8</b> deve essere di tipo <b>RichiestaCIE8</b></li>							
                             </ol>
                         </p>                        			
-		                </xs:documentation>
+		                </xs:documentation>RichiestaCIE2
 					</xs:annotation>
 			</xs:element>
 		</xs:sequence>

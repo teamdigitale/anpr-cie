@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema 
+    targetNamespace="http://www.anpr.interno.it/ANPR_CIE_Integration/ServerCIEOnline/Datatypes"
+    
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"  
+    xmlns:datatype="http://www.anpr.interno.it/ANPR_CIE_Integration/ServerCIEOnline/Datatypes"
+    
+    elementFormDefault="unqualified" attributeFormDefault="unqualified">
+  
+    <!-- N031 - Notifica subentro  -->
+    <xs:complexType name="N031Request">
+        <xs:sequence>                      
+            <xs:element name="comuneSubentrato" type="datatype:ISTATComune" />                           
+            <xs:element name="dataOraSubentro" type="xs:dateTime" />
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="N031Response">
+        <xs:sequence>                        
+                <xs:element name="codiceEsito" type="xs:string"/>
+                <xs:element name="esito" type="xs:string"/>                                
+        </xs:sequence>
+    </xs:complexType>
+    
+    
+    <!-- section: complexType -->
+    <xs:simpleType name="ISTATComune">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="\d{6}"/>
+        </xs:restriction>
+    </xs:simpleType>
+    
+</xs:schema>
