@@ -75,7 +75,8 @@
     <xs:complexType name="testaRichiestaSemplice">
         <xs:choice>
             <xs:element name="codISTATComune" type="datatype:ISTATComune"/>
-            <xs:element name="enteRichiedente" type="xs:string"/>            
+            <xs:element name="enteRichiedente" type="xs:string"/>
+            <xs:element name="idPostazione" type="xs:string"/>              
         </xs:choice>
     </xs:complexType>
     
