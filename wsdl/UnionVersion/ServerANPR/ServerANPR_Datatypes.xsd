@@ -42,7 +42,7 @@
         <xs:sequence>            
             <xs:choice>
                 <xs:element name="cartaIdentitaAnnullata" type="anpr:tipoCartaIdentita"/>   
-                <xs:element name="listaErrori" type="anpr:tipoCartaIdentita" maxOccurs="unbounded"/> 
+                <xs:element name="listaErrori" type="anpr:tipoErroriAnomalia" maxOccurs="unbounded"/> 
             </xs:choice>                    
         </xs:sequence>
     </xs:complexType>
