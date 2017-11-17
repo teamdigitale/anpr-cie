@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://sogei.it/ANPR/CIE0Servizi"
+	targetNamespace="http://sogei.it/ANPR/CIE0Servizi" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:anpr="http://sogei.it/ANPR/vocabolarioCIEServizi" xmlns:risp="http://sogei.it/ANPR/rispostaComune"
+	elementFormDefault="unqualified" attributeFormDefault="unqualified">
+
+	<xs:import namespace="http://sogei.it/ANPR/vocabolarioCIEServizi"
+		schemaLocation="vocabolarioCIEServizi.xsd" />
+
+
+	<!-- richiesta CIE -->
+	<xs:element name="RichiestaCIE">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:annotation>
+					<xs:documentation>
+						<p>Richiesta generica di un servizio CIE</p>
+					</xs:documentation>
+				</xs:annotation>
+				<xs:element name="testataRichiesta" type="anpr:tipoTestataRichiesta"
+					minOccurs="1" maxOccurs="1" />
+				<xs:element name="contenuto" type="xs:base64Binary"
+					xmime:expectedContentTypes="application/octet-stream" xmlns:xmime="http://www.w3.org/2005/05/xmlmime"
+					minOccurs="1" maxOccurs="1">
+					<xs:annotation>
+						<xs:documentation>
+							<p>
+								Il contenuto deve essere in formato xml relativo all'operazione
+								richiesta e in particolare:
+								<ol>
+									<li>
+										In caso di richiesta
+										<b>CIE2</b>
+										deve essere di tipo
+										<b>RichiestaCIE2</b>
+									</li>
+									<li>
+										In caso di richiesta
+										<b>CIE7</b>
+										deve essere di tipo
+										<b>RichiestaCIE7</b>
+									</li>
+									<li>
+										In caso di richiesta
+										<b>CIE8</b>
+										deve essere di tipo
+										<b>RichiestaCIE8</b>
+									</li>
+								</ol>
+							</p>
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="RispostaCIE">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:annotation>
+					<xs:documentation>
+						<p>Risposta generica di un servizio CIE</p>
+					</xs:documentation>
+				</xs:annotation>
+				<xs:element name="testataRisposta" type="anpr:tipoTestataRisposta"
+					minOccurs="1" maxOccurs="1" />
+				<xs:element name="contenuto" type="xs:base64Binary"
+					xmime:expectedContentTypes="application/octet-stream" xmlns:xmime="http://www.w3.org/2005/05/xmlmime"
+					minOccurs="1" maxOccurs="1">
+					<xs:annotation>
+						<xs:documentation>
+							<p>
+								Il contenuto deve essere in formato xml di risposta relativa
+								all'operazione richiesta e in particolare:
+								<ol>
+									<li>
+										In caso di risposta relativa ad una richiesta
+										<b>CIE2</b>
+										deve essere di tipo
+										<b>RispostaCIE2</b>
+									</li>
+									<li>
+										In caso di risposta relativa ad una richiesta
+										<b>CIE7</b>
+										deve essere di tipo
+										<b>RispostaCIE7</b>
+									</li>
+									<li>
+										In caso di risposta relativa ad una richiesta
+										<b>CIE8</b>
+										deve essere di tipo
+										<b>RispostaCIE8</b>
+									</li>
+								</ol>
+							</p>
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<!-- fine CIE -->
+
+	<!-- CIE2 -->
+	<xs:element name="RichiestaCIE2">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:annotation>
+					<xs:documentation>
+						<p>Richiesta CIE2: Interrogazione Dati Anagrafici</p>
+					</xs:documentation>
+				</xs:annotation>
+				<xs:element name="generalita" type="anpr:tipoGeneralitaPerRicercaCIE2" />
+				<xs:element name="datiRichiedente" type="anpr:tipoDatiRichiedente" />
+				<xs:element name="datiControllo" type="anpr:tipoDatiControllo" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="RispostaCIE2">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:annotation>
+					<xs:documentation>
+						<p>Risposta CIE2: Interrogazione Dati Anagrafici</p>
+						<p>Lista soggetti è assente in caso di errori. (esito su testata
+							risposta = XXXX)</p>
+					</xs:documentation>
+				</xs:annotation>
+				<xs:element name="listaSoggetti" type="anpr:tipoListaDatiSoggetto"
+					minOccurs="0" maxOccurs="1" />
+				<xs:element name="listaErrori" type="anpr:tipoListaErrori"
+					minOccurs="0" maxOccurs="1" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<!-- CIE2 -->
+
+	<!-- CIE7 -->
+	<xs:element name="RichiestaCIE7">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:annotation>
+					<xs:documentation>
+						<p>Richiesta CIE7: Comunicazione annullamento</p>
+					</xs:documentation>
+				</xs:annotation>
+				<xs:element name="generalita" type="anpr:tipoGeneralitaPerRicercaCIE7"
+					minOccurs="1" maxOccurs="1" />
+				<xs:element name="cartaIdentita" type="anpr:tipoCartaIdentitaCIE"
+					minOccurs="1" maxOccurs="1" />
+				<xs:element name="dataAnnullamento" type="xs:date"
+					minOccurs="1" maxOccurs="1" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="RispostaCIE7">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:annotation>
+					<xs:documentation>
+						<p>Risposta CIE7: Comunicazione annullamento</p>
+					</xs:documentation>
+				</xs:annotation>
+				<xs:element name="cartaIdentitaAnnullata" type="anpr:tipoCartaIdentitaCIE"
+					minOccurs="0" maxOccurs="1" />
+				<xs:element name="listaErrori" type="anpr:tipoListaErrori"
+					minOccurs="0" maxOccurs="1" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<!-- CIE7 -->
+
+	<!-- CIE8 -->
+	<xs:element name="RichiestaCIE8">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:annotation>
+					<xs:documentation>
+						<p>Richiesta CIE8: Comunicazione emissione</p>
+					</xs:documentation>
+				</xs:annotation>
+				<xs:element name="generalita" type="anpr:tipoGeneralitaPerRicercaCIE8"
+					minOccurs="1" maxOccurs="1" />
+				<xs:element name="cartaIdentita" type="anpr:tipoCartaIdentitaCIE"
+					minOccurs="1" maxOccurs="1" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="RispostaCIE8">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:annotation>
+					<xs:documentation>
+						<p>Risposta CIE8: Comunicazione emissione</p>
+					</xs:documentation>
+				</xs:annotation>
+				<xs:element name="cartaIdentitaEmessa" type="anpr:tipoCartaIdentitaCIE"
+					minOccurs="0" maxOccurs="1" />
+				<xs:element name="listaErrori" type="anpr:tipoListaErrori"
+					minOccurs="0" maxOccurs="1" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<!-- CIE8 -->
+
+</xs:schema>
